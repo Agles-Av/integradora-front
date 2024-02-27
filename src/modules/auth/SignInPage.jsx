@@ -56,7 +56,7 @@ function SignInPage() {
             >
               <div className="mb-4">
                 <Label htmlFor="username1" value="username" />
-                <TextInput id="username1" type="text" placeholder="Username" required name='username'
+                <TextInput id="username1" type="text" placeholder="username" required name='username'
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.username}
