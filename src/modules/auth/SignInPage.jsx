@@ -84,7 +84,7 @@ function SignInPage() {
               <Button className='rounded-full w-full' type="submit"
               disabled={formik.isSubmitting || !formik.isValid}
               > {
-                formik.isSubmitting ? (<Spinner/> ) : (<>Iniciar Sesión</>)
+                formik.isSubmitting ? (<Spinner/> ) : (<>Iniciar Sesion</>)
               } 
               </Button>
             </form>
