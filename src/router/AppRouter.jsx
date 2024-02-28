@@ -9,7 +9,7 @@ import SignInPage from '../modules/auth/SignInPage';
 import AuthContext from '../config/context/auth-context';
 
 function AppRouter() {
-  /*
+  
   const { user } = useContext(AuthContext);
   const router = createBrowserRouter( // es el diagrama q me enseño const router crea el elemeto grande aun sin usarse 
     createRoutesFromElements( //hacer comparacion con aside
@@ -27,7 +27,7 @@ function AppRouter() {
                 <Route path='user' element={<>USUARIOS</>} />
               </Route>
             </>
-          ) : <Route path='/' element={<>LOGIN</>} />
+          ) : <Route path='/' element={<SignInPage/>} />
         }
         <Route path='/*' element={<>Error 404</>} />
       </>
@@ -35,10 +35,7 @@ function AppRouter() {
 
   )
   return <RouterProvider router={router} /> //router es un prop 😭 que manda el router <cosnt></cosnt>
-  */
- return(
-  <div>Aqui el codigo</div>
- )
+  
 }
 
 export default AppRouter
