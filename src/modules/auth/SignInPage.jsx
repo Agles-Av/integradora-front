@@ -15,11 +15,11 @@ function SignInPage() {
 
   const formik = useFormik({
     initialValues: {
-      username: '',
+      email: '',
       password: ''
     },
     validationSchema: yup.object().shape({
-      username: yup.string().required("Campo obligatorio"),
+      email: yup.string().required("Campo obligatorio"),
       password: yup.string().required("Campo obligatorio"),
     }),
     onSubmit: async (values, { setSubmitting }) => {
@@ -50,14 +50,14 @@ function SignInPage() {
               onSubmit={formik.handleSubmit}
             >
               <div className="mb-4">
-                <Label htmlFor="username1" value="username" className="text-white text-lg font-sans"/>
-                <TextInput id="username1" type="text" placeholder="username" required name='username'
+                <Label htmlFor="email1" value="email" className="text-white text-lg font-sans"/>
+                <TextInput id="email1" type="text" placeholder="email" required name='email'
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.username}
+                  value={formik.values.email}
                   helperText={
-                    formik.errors.username && formik.touched.username ? (<span className='font-medium text-red-600'>
-                      {formik.errors.username}
+                    formik.errors.email && formik.touched.email ? (<span className='font-medium text-red-600'>
+                      {formik.errors.email}
                     </span>) : null
                   }
                   className="border-b border-black focus:outline-none text-white"
@@ -100,92 +100,6 @@ function SignInPage() {
   );
 
 
-
-  /*
-  return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-green-400 to-green-800 ">
-      <div className='w-full md:w-1/2 lg:w-1/2 sm:w-1/2'>
-        <Card className=" bg-gradient-to-r from-green-400 to-green-800 rounded">
-          <div className='flex justify-center'>
-            <img src="../../img/loginLogo.jpeg" alt="" />
-          </div>
-          <div className='flex justify-center text-center '>
-            <form className="p-8 w-full w-full md:1/2 lg:w-1/2  " noValidate
-              onSubmit={formik.handleSubmit}
-            >
-              <div className="mb-4">
-                <Label htmlFor="username1" value="username" />
-                <TextInput id="username1" type="text" placeholder="username" required name='username'
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.username}
-                  helperText={
-                    formik.errors.username && formik.touched.username ? (<span className='font-medium text-red-600'>
-                      {formik.errors.username}
-                    </span>) : null
-                  }
-                />
-              </div>
-              <div className="mb-4">
-                <Label htmlFor="password1" value="Your password" />
-                <TextInput id="password1" type="password" required name='password' placeholder='*******'
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                  helperText={
-                    formik.errors.password && formik.touched.password ? (<span className='font-medium text-red-600'>
-                      {formik.errors.password}
-                    </span>) : null
-                  }
-                  
-                />
-              </div>
-              <Button className='rounded-full w-full' type="submit"
-              disabled={formik.isSubmitting || !formik.isValid}
-              > {
-                formik.isSubmitting ? (<Spinner/> ) : (<>Iniciar Sesion</>)
-              } 
-              </Button>
-            </form>
-          </div>
-        </Card>
-      </div>
-    </div>
-  );
-            <div className="flex flex-col">
-            <div className="mb-2 mt-4 block">
-              <Label htmlFor="username1" value="Username" className="text-white text-lg font-sans" />
-            </div>
-            <div className="mt-2">
-              <TextInput
-                id="username1"
-                type="text"
-                placeholder="********"
-                required
-                className="border-b border-black focus:outline-none text-white"
-                style={{ backgroundColor: "#119DA4", borderColor: "#119DA4" }}
-              />
-            </div>
-            <div className="mb-2  mt-1 block">
-              <Label htmlFor="password1" value="Contraseña" className="text-white text-lg font-sans" />
-            </div>
-            <div className="mt-2">
-              <TextInput
-                id="password1"
-                type="password"
-                placeholder="********"
-                required
-                className="border-b border-black focus:outline-none text-white"
-                style={{ backgroundColor: "#119DA4", borderColor: "#119DA4" }}
-              />
-            </div>
-            <div className=" mt-2 ">
-              <Button type="submit" className="font-sans rounded-lg shadow" style={{ backgroundColor: "#039A00" }}>
-                Iniciar Sesión
-              </Button>
-            </div>
-          </div>
-  */
 }
 
 export default SignInPage;
