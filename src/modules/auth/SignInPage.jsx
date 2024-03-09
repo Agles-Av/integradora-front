@@ -32,7 +32,7 @@ function SignInPage() {
         })
         if (!response?.error) {
           dispatch({ type: "SIGNIN", payload: response.data });
-          navigate("/admin", { replace: true });
+          navigate("/home", { replace: true });
         } else throw Error('Error');
       } catch (error) {
         console.log(error);
