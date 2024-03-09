@@ -50,8 +50,8 @@ function SignInPage() {
               onSubmit={formik.handleSubmit}
             >
               <div className="mb-4">
-                <Label htmlFor="email1" value="email" className="text-white text-lg font-sans"/>
-                <TextInput id="email1" type="text" placeholder="email" required name='email'
+                <Label htmlFor="email" value="email" className="text-white text-lg font-sans"/>
+                <TextInput id="email" type="text" placeholder="email" required name='email'
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.email}
@@ -65,8 +65,8 @@ function SignInPage() {
                 />
               </div>
               <div className="mb-4">
-                <Label htmlFor="password1" value="Contraseña" className="text-white text-lg font-sans"/>
-                <TextInput id="password1" type="password" required name='password' placeholder='*******'
+                <Label htmlFor="password" value="Contraseña" className="text-white text-lg font-sans"/>
+                <TextInput id="password" type="password" required name='password' placeholder='*******'
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.password}
