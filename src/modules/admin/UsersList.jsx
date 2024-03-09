@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
 import { Badge, Button, Card, Label, TextInput, Modal } from 'flowbite-react';
 import { useState } from 'react';
+import AxiosCliente from '../../config/htpp-gateway/http-client';
 import TableComponent from '../../components/admin/TableComponent';
 import { AiFillEdit, AiFillDelete, AiOutlineDoubleLeft } from "react-icons/ai";
 import { FaSearch, FaPlus } from "react-icons/fa";
@@ -66,8 +67,8 @@ const UsersList = () => {
     const getUsers = async () => {
         try {
             setLoading(true);
-            const response = await AxiosClient({
-                url: "/api/person/",
+            const response = await AxiosCliente({
+                url: "/person/",
                 method: "GET",
             });
             console.log(response);
