@@ -16,7 +16,7 @@ function AdminHome() {
             <div className='p-6'>
               <Card
                 className="max-w-sm"
-                href="#"
+                href="user"
                 style={{ borderColor: '#0C7489'}}
               >
               <div className='flex justify-center items-center'>
@@ -38,7 +38,7 @@ function AdminHome() {
             <div className='p-6'>
               <Card
                 className="max-w-sm"
-                href="#"
+                href="system"
                 style={{ borderColor: '#0C7489'}}
               >
                 <div className='flex justify-center items-center'>
