@@ -107,6 +107,7 @@ function DocenteHome() {
               </Card>
             </Col>
           </Row>
+          
         </Container>
       </div>
     </>
