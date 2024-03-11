@@ -5,6 +5,7 @@ import AxiosCliente from '../../config/htpp-gateway/http-client';
 import TableComponent from '../../components/admin/TableComponent';
 import { AiFillEdit, AiFillDelete, AiOutlineDoubleLeft } from "react-icons/ai";
 import { FaSearch, FaPlus } from "react-icons/fa";
+import ModalCreate from '../../components/admin/ModalCreate';
 
 
 const UsersList = () => {
@@ -20,34 +21,40 @@ const UsersList = () => {
             selector: (row, index) => index + 1,
         },
         {
+            name: "Rol",
+            cell: (row, index) => <>{row.role.name}</>,
+            sortable: true,
+            selector: (row, index) => row.role.name,
+        },
+        {
             name: "Nombre",
-            cell: (row, index) => <>{row.name}</>,
+            cell: (row, index) => <>{row.person.name}</>,
             sortable: true,
-            selector: (row, index) => row.name,
+            selector: (row, index) => row.person.name,
         },
         {
-            name: "Primer apellido",
-            cell: (row, index) => <>{row.surname}</>,
+            name: "Apellido",
+            cell: (row, index) => <>{row.person.surname}</>,
             sortable: true,
-            selector: (row, index) => row.surname,
+            selector: (row, index) => row.person.surname,
         },
         {
-            name: "Segundo apellido",
-            cell: (row, index) => <>{row.lastname}</>,
+            name: "Correo electrónico",
+            cell: (row, index) => <>{row.email}</>,
             sortable: true,
-            selector: (row, index) => row.lastname,
+            selector: (row, index) => row.email,
         },
         {
             name: "Matricula",
-            cell: (row, index) => <>{row.matricula}</>,
+            cell: (row, index) => <>{row.person.matricula}</>,
             sortable: true,
-            selector: (row, index) => row.matricula,
+            selector: (row, index) => row.person.matricula,
         },
         {
             name: "CURP",
-            cell: (row, index) => <>{row.curp}</>,
+            cell: (row, index) => <>{row.person.curp}</>,
             sortable: true,
-            selector: (row, index) => row.curp,
+            selector: (row, index) => row.person.curp,
         },
         {
             name: "Acciones",
@@ -68,7 +75,7 @@ const UsersList = () => {
         try {
             setLoading(true);
             const response = await AxiosCliente({
-                url: "/person/",
+                url: "/usuario/",
                 method: "GET",
             });
             console.log(response);
@@ -87,7 +94,7 @@ const UsersList = () => {
     }, []);
 
     const filter = () => {
-        return users.filter(user => user.name.includes(filterText));
+        return users.filter(user => user.person.name.includes(filterText));
     }
 
     return (
@@ -103,6 +110,7 @@ const UsersList = () => {
                     </div>
                     <div className='justify-center'>
                         <Button pill outline color='success' onClick={()=> setOpenModal(true)}> <FaPlus/> </Button>
+                        <ModalCreate openModal={openModal} setOpenModal={setOpenModal}/>
                     </div>
                 </div>
                 <Card>
