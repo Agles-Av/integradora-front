@@ -110,7 +110,7 @@ const UsersList = () => {
                     </div>
                     <div className='justify-center'>
                         <Button pill outline color='success' onClick={()=> setOpenModal(true)}> <FaPlus/> </Button>
-                        <ModalCreate openModal={openModal} setOpenModal={setOpenModal}/>
+                        <ModalCreate openModal={openModal} getAllUsers={getUsers} setOpenModal={setOpenModal}/>
                     </div>
                 </div>
                 <Card>
