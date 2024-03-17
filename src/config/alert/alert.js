@@ -18,3 +18,20 @@ return Alertclient.fire({
     confirmButtonText: "Aceptar"
 });
 };
+
+export const confirmAlert = (preConfirm) => {
+    return Alertclient.fire({
+      title:"¿Estás seguro de realizar esta acción?",
+      text:"Le solicitamos esperar un momento a que la solicutud termine",
+      icon:'info',
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#0E7490',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
+      allowOutsideClick:()=> AlertClient.isLoading(),
+      reverseButtons: true,
+      backdrop: true,
+      preConfirm,
+    });
+  }
