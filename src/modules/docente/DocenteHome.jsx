@@ -9,9 +9,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import ExamenesClase from './Pantallas/ExamenesClase';
+
+import { faPencil, faArrowRight, faPeopleGroup,faBriefcaseClock,faUserTie, faCircleUser } from '@fortawesome/free-solid-svg-icons';
+
 
 function DocenteHome() {
   const handleNuevaClaseClick = async () => {
@@ -68,13 +70,13 @@ function DocenteHome() {
     <>
       <header style={{ backgroundColor: '#0C7489' }}>
         <Navbar expand="lg" className="bg">
-          <div className='d-flex align-items-center'>
-            <Navbar.Brand><img src={Icon} alt="Usuario" style={{ width: 40, height: 40 }} /></Navbar.Brand>
-            <Navbar.Brand href="#home" className='mx-auto text-center text-md-start'>SIGEU - Docente</Navbar.Brand>
+          <div className='d-flex align-items-center ms-3'>
+            <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: '40px', color: '#fff' }} />
+            <Navbar.Brand href="#home" className='ms-3 mx-auto text-center text-md-start' style={{color:'#D9D9D9'}}>SIGEU - Docente</Navbar.Brand>
           </div>
           <div className='me-md-5 me-2 text-center text-md-end ms-md-auto '>
             <Nav>
-              <Button as="a" variant="success" className='w-100 w-md-200' onClick={handleNuevaClaseClick}>
+              <Button as="a" variant="success" className='w-100 w-md-200' onClick={handleNuevaClaseClick} style={{ boxShadow: '0px 2px 4px rgba(0, 0, 0, 1)' }}>
                 Nueva Clase
               </Button>
             </Nav>
@@ -86,10 +88,10 @@ function DocenteHome() {
         <Container>
           <Row>
             <Col>
-              <h1 className='text-primary my-3 text-center text-md-start'>Tus Clases</h1>
+              <h1 className=' my-3 text-center text-md-start' style={{color:'#0C7489'}}>Tus Clases</h1>
             </Col>
           </Row>
-          <Row className='border border-primary'>
+          <Row className='' style={{border: '1px solid #119DA4'}}>
             <Col xs={12} md={6} lg={4} className='my-3'>
               <Card>
                 <Card.Body style={{ height: '15rem' }}>
