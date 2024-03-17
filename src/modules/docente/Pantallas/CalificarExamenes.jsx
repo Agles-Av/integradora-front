@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faArrowRight, faCircleArrowUp, faSquareArrowUpRight } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faArrowRight, faCircleArrowUp, faSquareArrowUpRight, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 
 function CalificarExamenes() {
@@ -18,9 +18,9 @@ function CalificarExamenes() {
         <>
             <header style={{ backgroundColor: '#0C7489' }}>
                 <Navbar expand="lg" className="bg">
-                    <div className='d-flex align-items-center'>
-                        <Navbar.Brand><img src={Icon} alt="Usuario" style={{ width: 40, height: 40 }} /></Navbar.Brand>
-                        <Navbar.Brand href="#home" className='mx-auto text-center text-md-start'>SIGEU - Docente</Navbar.Brand>
+                    <div className='d-flex align-items-center ms-3'>
+                        <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: '40px', color: '#fff' }} />
+                        <Navbar.Brand href="#home" className='ms-3 mx-auto text-center text-md-start' style={{ color: '#D9D9D9' }}>SIGEU - Docente</Navbar.Brand>
                     </div>
 
                 </Navbar>
@@ -100,12 +100,12 @@ function CalificarExamenes() {
                                 </Col>
                             </Row>
 
-                            <div className='d-flex align-items-center' style={{ border: '1px solid #0C7489' }}>
+                            <div className='d-flex align-items-center' style={{ border: '1px solid #119DA4' }}>
                                 <Row className=' my-2 ms-2 d-flex align-items-center'>
                                     {/* Primer div */}
                                     <Col xs={12} md={5} className='mx-auto my-2'>
                                         <Row className='d-flex align-items-center justify-content-center' style={{ background: '#13505B' }}>
-                                            <Col xs={7} md={9} className='text-center d-flex align-items-center justify-content-center' style={{ background: '#13505B', height: 'auto'}}>
+                                            <Col xs={7} md={9} className='text-center d-flex align-items-center justify-content-center' style={{ background: '#13505B', height: 'auto' }}>
                                                 <p className='my-3' style={{ color: '#D9D9D9' }}>
                                                     Calificación: 7/10
                                                 </p>
@@ -127,7 +127,7 @@ function CalificarExamenes() {
                                     {/* Segundo div */}
                                     <Col md={5} className='mx-auto my-2'>
                                         <Row className='d-flex align-items-center justify-content-center' style={{ background: '#13505B' }}>
-                                            <Col  xs={7} md={9} className='text-center d-flex align-items-center justify-content-center' style={{ background: '#13505B', height: 'auto' }}>
+                                            <Col xs={7} md={9} className='text-center d-flex align-items-center justify-content-center' style={{ background: '#13505B', height: 'auto' }}>
                                                 <p className='my-3' style={{ color: '#D9D9D9' }}>
                                                     Calificación: 7/10
                                                 </p>
@@ -149,7 +149,7 @@ function CalificarExamenes() {
                                     {/* Tercer div */}
                                     <Col md={5} className='mx-auto my-2'>
                                         <Row className='d-flex align-items-center justify-content-center' style={{ background: '#13505B' }}>
-                                            <Col  xs={7} md={9} className='text-center d-flex align-items-center justify-content-center' style={{ background: '#13505B', height: 'auto' }}>
+                                            <Col xs={7} md={9} className='text-center d-flex align-items-center justify-content-center' style={{ background: '#13505B', height: 'auto' }}>
                                                 <p className='my-3' style={{ color: '#D9D9D9' }}>
                                                     Calificación: 7/10
                                                 </p>
@@ -168,10 +168,10 @@ function CalificarExamenes() {
                                         </Row>
                                     </Col>
 
-                                     {/* Cuarto div */}
-                                     <Col md={5} className='mx-auto my-2'>
+                                    {/* Cuarto div */}
+                                    <Col md={5} className='mx-auto my-2'>
                                         <Row className='d-flex align-items-center justify-content-center' style={{ background: '#13505B' }}>
-                                            <Col  xs={7} md={9} className='text-center d-flex align-items-center justify-content-center' style={{ background: '#13505B', height: 'auto' }}>
+                                            <Col xs={7} md={9} className='text-center d-flex align-items-center justify-content-center' style={{ background: '#13505B', height: 'auto' }}>
                                                 <p className='my-3' style={{ color: '#D9D9D9' }}>
                                                     Calificación: 7/10
                                                 </p>

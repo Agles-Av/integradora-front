@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faArrowRight, faPeopleGroup,faBriefcaseClock,faLocationArrow } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faArrowRight, faPeopleGroup,faBriefcaseClock,faLocationArrow, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import Exam from '../../../../img/exam.png';
 
@@ -68,13 +68,13 @@ const ExamenesClase = () => {
 
       <header style={{ backgroundColor: '#0C7489' }}>
         <Navbar expand="lg" className="bg">
-          <div className='d-flex align-items-center'>
-            <Navbar.Brand><img src={Icon} alt="Usuario" style={{ width: 40, height: 40 }} /></Navbar.Brand>
-            <Navbar.Brand href="#home" className='mx-auto text-center text-md-start'>SIGEU - Docente</Navbar.Brand>
+        <div className='d-flex align-items-center ms-3'>
+            <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: '40px', color: '#fff' }} />
+            <Navbar.Brand href="#home" className='ms-3 mx-auto text-center text-md-start' style={{color:'#D9D9D9'}}>SIGEU - Docente</Navbar.Brand>
           </div>
           <div className='me-md-5 me-2 text-center text-md-end ms-md-auto '>
             <Nav>
-              <Button as="a" variant="success" className='w-100 w-md-200' onClick={handleNuevoExamenClick}>
+              <Button as="a" variant="success" className='w-100 w-md-200' onClick={handleNuevoExamenClick} style={{ boxShadow: '0px 2px 4px rgba(0, 0, 0, 1)' }}>
                 Nuevo Examen
               </Button>
             </Nav>
@@ -120,7 +120,7 @@ const ExamenesClase = () => {
         </Container>
       </div>
 
-      <div>
+      <div style={{ background: '#119DA4' }}>
         <Container>
           <Row className='my-5 py-xs-3' style={{ background: '#119DA4', height: 'auto', justifyContent: 'center' }}>
             <Col xs={4} md={1} className='d-flex align-items-center'>
