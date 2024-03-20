@@ -11,6 +11,9 @@ import AdminHome from '../modules/admin/AdminHome';
 import AdminLayout from '../modules/admin/AdminLayout';
 import UsersList from '../modules/admin/UsersList';
 import SystemEdit from '../modules/admin/SystemEdit';
+import EstudianteHome from '../modules/estudiante/EstudianteHome';
+import EstudianteLayout from '../modules/estudiante/EstudianteLayout';
+import DocenteLayout from '../modules/docente/Pantallas/DocenteLayout';
 
 
 function AppRouter() {
@@ -21,6 +24,7 @@ function AppRouter() {
 
   useEffect(()=>{
     setRole(localStorage.getItem('role'));
+    console.log(role);
   },[reload]);
 
   const router = createBrowserRouter( // es el diagrama q me enseño const router crea el elemeto grande aun sin usarse 
@@ -34,17 +38,19 @@ function AppRouter() {
           user.signed && role === "ADMIN_ROLE" ? ( //😱 😱? se llama banderas pq indican el como funciona un booleano cuando no se pone ningun signo 
             <Route path='/' element={<AdminLayout />}>
               
-              <Route path='home' element={<AdminHome />} />
+              <Route path='homeAdmin' element={<AdminHome />} />
               <Route path='system' element={<SystemEdit/>} />
               <Route path='user' element={<UsersList/>} />
             </Route>
           ) : user.signed && role === "DOCENTE_ROLE" ?(
-            <Route path='/' element={<>DOCENTE LAYOUT</>}>
+            <Route path='/' element={<DocenteLayout/>}>
+              <Route path='homeDocente' element={<>DOCENTEHOME</>} />
               
             </Route>
           ): user.signed && role === "ESTUDIANTE_ROLE" ? (
-            <Route path='/' element={<>Estudiante layput</>}>
-          
+            <Route path='/' element={<EstudianteLayout/>}>
+              <Route path='homeEstudiante' element={<>HomeEstudainte</>}/>
+              
             </Route>          
           ): <Route path='/' element={<SignInPage reload={setReload}/>}/>
         }

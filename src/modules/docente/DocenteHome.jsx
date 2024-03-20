@@ -68,22 +68,6 @@ function DocenteHome() {
 
   return (
     <>
-      <header style={{ backgroundColor: '#0C7489' }}>
-        <Navbar expand="lg" className="bg">
-          <div className='d-flex align-items-center ms-3'>
-            <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: '40px', color: '#fff' }} />
-            <Navbar.Brand href="#home" className='ms-3 mx-auto text-center text-md-start' style={{color:'#D9D9D9'}}>SIGEU - Docente</Navbar.Brand>
-          </div>
-          <div className='me-md-5 me-2 text-center text-md-end ms-md-auto '>
-            <Nav>
-              <Button as="a" variant="success" className='w-100 w-md-200' onClick={handleNuevaClaseClick} style={{ boxShadow: '0px 2px 4px rgba(0, 0, 0, 1)' }}>
-                Nueva Clase
-              </Button>
-            </Nav>
-          </div>
-        </Navbar>
-      </header>
-
       <div>
         <Container>
           <Row>

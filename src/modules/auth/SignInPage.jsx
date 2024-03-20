@@ -37,11 +37,11 @@ function SignInPage(props) {
           console.log(response.data.roles.name);
           localStorage.setItem('role', response.data.roles.name);
           if (response.data.roles.name === 'ADMIN_ROLE') {
-            navigate("/home", { replace: true });
+            navigate("/homeAdmin", { replace: true });
           }else if(response.data.roles.name === 'DOCENTE_ROLE'){
-            navigate("/", { replace: true });
+            navigate("/homeDocente", { replace: true });
           }else if(response.data.roles.name === 'ESTUDIANTE_ROLE'){
-            navigate("/", { replace: true });
+            navigate("/homeEstudiante", { replace: true });
           }
           reload(true);
         } else throw Error('Error');
