@@ -57,7 +57,7 @@ function SignInPage(props) {
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="flex flex-col md:flex-row w-full max-w-6xl md:rounded-l-lg shadow" >
-        <div className="md:w-1/2 p-6 md:rounded-l-lg" style={{ backgroundColor: "#119DA4" }}>
+        <div className="md:w-1/2 p-6 md:rounded-l-lg " style={{ backgroundColor: "#119DA4" }}>
           <form className="p-8 w-full  lg:w-full  " noValidate
             onSubmit={formik.handleSubmit}
           >
