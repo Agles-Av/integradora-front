@@ -12,6 +12,9 @@ function EstudianteHome() {
   const [dataHistory, setDataHistory] = useState([]); 
   const navigate = useNavigate();
 
+  const idEstudiante = localStorage.getItem('idEstudiante');
+  console.log("idEstudiante",idEstudiante);
+
   const formik = useFormik({
     initialValues: {
       codigo: ''
@@ -20,6 +23,7 @@ function EstudianteHome() {
       codigo: yup.string().required("Campo obligatorio").min(5, "El código debe tener al menos 5 caracteres").max(5, "El código debe tener 5 caracteres")
     }),
 
+    //Este es simplemente 
     onSubmit: async (values, { setSubmitting }) => {
       console.log(values);
       console.log(values.codigo);
@@ -49,7 +53,7 @@ function EstudianteHome() {
     try {
       const response = await AxiosCliente({
         method: 'GET',
-        url: '/usuarioexamen/',
+        url: '/usuarioexamen/examen/'+idEstudiante,
       })
       if (!response.error) {
         console.log(response.data);

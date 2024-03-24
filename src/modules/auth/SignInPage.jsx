@@ -42,6 +42,8 @@ function SignInPage(props) {
             navigate("/homeDocente", { replace: true });
           }else if(response.data.roles.name === 'ESTUDIANTE_ROLE'){
             navigate("/homeEstudiante", { replace: true });
+            console.log(response.data.user.id);
+            localStorage.setItem('idEstudiante', response.data.user.id);
           }
           reload(true);
         } else throw Error('Error');
