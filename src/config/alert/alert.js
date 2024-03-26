@@ -29,7 +29,25 @@ export const confirmAlert = (preConfirm) => {
       cancelButtonText: 'Cancelar',
       showCancelButton: true,
       showLoaderOnConfirm: true,
-      allowOutsideClick:()=> AlertClient.isLoading(),
+      allowOutsideClick:()=> Alertclient.isLoading(),
+      reverseButtons: true,
+      backdrop: true,
+      preConfirm,
+    });
+  }
+
+  export const confirmAlertExamen = (preConfirm) => {
+    return Alertclient.fire({
+      title:"¿Estas seguro de enviar tus respuestas?",
+      text:"Revisa bien tus respuestas antes de enviarlas",
+      icon:'info',
+      iconColor:'orange',
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#0E7490',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
+      allowOutsideClick:()=> Alertclient.isLoading(),
       reverseButtons: true,
       backdrop: true,
       preConfirm,
