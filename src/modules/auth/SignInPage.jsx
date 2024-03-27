@@ -49,7 +49,7 @@ function SignInPage(props) {
         } else throw Error('Error');
       } catch (error) {
         console.log(error);
-        customAlert("iniciar sesión", "Usuario y/o contraseña incorrectos", "error")
+        customAlert("Error al iniciar sesión", "Usuario y/o contraseña incorrectos", "error")
       } finally {
         setSubmitting(false);
       }
@@ -64,7 +64,7 @@ function SignInPage(props) {
             onSubmit={formik.handleSubmit}
           >
             <div className="mb-4">
-              <Label htmlFor="email" value="email" className="text-white text-lg font-sans" />
+              <Label htmlFor="email" value="Correo electrónico" className="text-white text-lg font-sans" />
               <TextInput id="email" type="text" placeholder="email" required name='email'
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -97,7 +97,7 @@ function SignInPage(props) {
               disabled={formik.isSubmitting || !formik.isValid}
               style={{ backgroundColor: "#039A00" }}
             > {
-                formik.isSubmitting ? (<Spinner />) : (<>Iniciar Sesion</>)
+                formik.isSubmitting ? (<Spinner />) : (<>Iniciar Sesión</>)
               }
             </Button>
           </form>
@@ -105,7 +105,7 @@ function SignInPage(props) {
         <div className="md:w-1/2 p-6 md:rounded-r-lg" style={{ backgroundColor: "#0C7489" }}>
           <div className="flex flex-col items-center justify-center">
             <img src="../../img/loginLogo.jpeg" alt="" className="rounded-full  mb-4" />
-            <h1 className="text-2xl text-white font-sans">SIEGU</h1>
+            <h1 className="text-2xl text-white font-sans">SIGEU</h1>
             <h2 className="text-white font-sans">SISTEMA GESTOR DE EXAMENES UNIVERSITARIOS</h2>
           </div>
         </div>

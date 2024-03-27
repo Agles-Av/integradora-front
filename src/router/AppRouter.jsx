@@ -39,10 +39,9 @@ function AppRouter() {
         {
           user.signed && role === "ADMIN_ROLE" ? ( //😱 😱? se llama banderas pq indican el como funciona un booleano cuando no se pone ningun signo 
             <Route path='/' element={<AdminLayout />}>
-
-              <Route path='homeAdmin' element={<AdminHome />} />
               <Route path='system' element={<SystemEdit />} />
-              <Route path='user' element={<UsersList />} />
+              <Route path='/' element={<UsersList />} />
+              <Route path='users' element={<UsersList />} />
             </Route>
           ) : user.signed && role === "DOCENTE_ROLE" ? (
             <Route path='/' element={<DocenteLayout />}>
