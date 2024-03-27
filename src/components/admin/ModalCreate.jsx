@@ -70,6 +70,8 @@ const ModalCreate = ({ openModal, setOpenModal, getAllUsers }) => {
                     customAlert("Error", "Ocurrió un error al registrar el usuario", "error")
                 } finally {
                     setSubmitting(false)
+                    closeModal();
+                    getAllUsers();
                 }
             })
         }

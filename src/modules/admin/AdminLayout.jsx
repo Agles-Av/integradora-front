@@ -8,12 +8,18 @@ const AdminLayout = () => {
     return (
         <>
             <header>
-                <Navbar fluid style={{backgroundColor:'#0C7489'}}>
+                <Navbar fluid style={{ backgroundColor: '#0C7489' }}>
                     <Navbar.Brand>
-                        <FaUserCircle size={24} color='white' className='mr-2'/>
+                        <FaUserCircle size={24} color='white' className='mr-2' />
                         <span className="self-center whitespace-nowrap text-xl font-semibold text-white">SIGEU - Administrador</span>
                     </Navbar.Brand>
                     <Navbar.Toggle />
+
+                    <Navbar.Collapse >
+                        <Navbar.Link href="/users" style={{color:"white"}}>Usuarios</Navbar.Link>
+                        <Navbar.Link href="/system" style={{color:"white"}}>Sistema</Navbar.Link>
+                        <Navbar.Link href="#" style={{color:"white"}}>Cerrar sesión</Navbar.Link>
+                    </Navbar.Collapse>
                 </Navbar>
             </header>
             <div className='flex'>

@@ -6,6 +6,8 @@ import TableComponent from '../../components/admin/TableComponent';
 import { AiFillEdit, AiFillDelete, AiOutlineDoubleLeft } from "react-icons/ai";
 import { FaSearch, FaPlus } from "react-icons/fa";
 import ModalCreate from '../../components/admin/ModalCreate';
+import ModalUpdate from '../../components/admin/ModalUpdate';
+import { customAlert, confirmAlert } from '../../config/alert/alert'
 
 
 const UsersList = () => {
@@ -62,10 +64,10 @@ const UsersList = () => {
             name: "Acciones",
             cell: (row) => (
                 <>
-                    <Button outline size={'sm'} pill color='warning'>
+                    <Button outline size={'sm'} pill color='warning' onClick={() => goUpdate(row)}>
                         {<AiFillEdit />}
                     </Button>
-                    <Button outline size={'sm'} pill color={row.status ? 'failure' : 'success'}>
+                    <Button outline size={'sm'} pill color={row.status ? 'failure' : 'success'} onClick={() => deleteUsers(row.id)}>
                         {row.status ? <AiFillDelete /> : <AiOutlineDoubleLeft />}
                     </Button>
                 </>
@@ -77,6 +79,27 @@ const UsersList = () => {
         console.log(data);
         setOpenModalUp(true);
         setUserData(data);
+    }
+
+    const deleteUsers = (id) => {
+        confirmAlert(async () => {
+            console.log(id);
+            try {
+                const response = await AxiosCliente({
+                    method: 'DELETE',
+                    url: '/usuario/' + id
+                });
+                console.log("Respuesta del servidor:", response);
+                if (!response.error) {
+                    customAlert("Éxito", "Usuario eliminado", "success")
+                    getUsers();
+                }
+                return response;
+            } catch (error) {
+                customAlert("Error", "Ocurrió un error al eliminar al usuario", "error")
+            } finally {
+            }
+        })
     }
 
     const getUsers = async () => {
@@ -117,14 +140,15 @@ const UsersList = () => {
 
                     </div>
                     <div className='justify-center'>
-                        <Button pill outline color='success' onClick={()=> setOpenModal(true)}> <FaPlus/> </Button>
-                        <ModalCreate openModal={openModal} getAllUsers={getUsers} setOpenModal={setOpenModal}/>
+                        <Button pill outline color='success' onClick={() => setOpenModal(true)}> <FaPlus /> </Button>
+                        <ModalCreate openModal={openModal} getAllUsers={getUsers} setOpenModal={setOpenModal} />
                     </div>
                 </div>
                 <Card>
-                    <TableComponent columns={columns} data={filter()} progress={loading}/>
+                    <TableComponent columns={columns} data={filter()} progress={loading} />
                 </Card>
             </section>
+            {openModalUp && <ModalUpdate data={userData} openModalUp={openModalUp} setOpenModalUp={setOpenModalUp} />}
         </>
     )
 }
