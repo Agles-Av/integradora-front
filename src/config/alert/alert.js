@@ -53,3 +53,22 @@ export const confirmAlert = (preConfirm) => {
       preConfirm,
     });
   }
+
+  export const confirmAlertLogOut = (preConfirm) => {
+    return Alertclient.fire({
+      title:"¿Quieres cerrar sesión?",
+      text:"Si cierras sesión tendrás que volver a iniciar sesión para acceder a tu cuenta",
+      icon:'info',
+      iconColor:'orange',
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
+      confirmButtonColor: 'red',
+      cancelButtonColor: 'green',
+      allowOutsideClick:()=> Alertclient.isLoading(),
+      reverseButtons: true,
+      backdrop: true,
+      preConfirm,
+    });
+  }
