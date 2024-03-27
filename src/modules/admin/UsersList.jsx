@@ -11,8 +11,10 @@ import ModalCreate from '../../components/admin/ModalCreate';
 const UsersList = () => {
     const [loading, setLoading] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+    const [openModalUp, setOpenModalUp] = useState(false);
     const [users, setUsers] = useState([]);
     const [filterText, setFilterText] = useState("");
+    const [userData, setUserData] = useState(null);
     const columns = useMemo(() => [
         {
             name: "#",
@@ -69,7 +71,13 @@ const UsersList = () => {
                 </>
             ),
         },
-    ])
+    ]);
+
+    const goUpdate = (data) => {
+        console.log(data);
+        setOpenModalUp(true);
+        setUserData(data);
+    }
 
     const getUsers = async () => {
         try {
