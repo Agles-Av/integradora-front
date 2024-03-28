@@ -6,7 +6,7 @@ import AuthContext from '../../config/context/auth-context';
 import { GoHomeFill } from "react-icons/go";
 import { confirmAlertLogOut } from '../../config/alert/alert';
 
-const AdminLayout = () => {
+const DocenteLayout = () => {
     const { dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -28,13 +28,12 @@ const AdminLayout = () => {
                 <Navbar fluid style={{ backgroundColor: '#0C7489' }}>
                     <Navbar.Brand>
                         <FaUserCircle size={24} color='white' className='mr-2' />
-                        <span className="self-center whitespace-nowrap text-xl font-semibold text-white">SIGEU - Administrador</span>
+                        <span className="self-center whitespace-nowrap text-xl font-semibold text-white">SIGEU - Docente</span>
                     </Navbar.Brand>
                     <Navbar.Toggle />
 
                     <Navbar.Collapse >
-                        <Navbar.Link href="/users" style={{ color: "white" }}>Usuarios</Navbar.Link>
-                        <Navbar.Link href="/system" style={{ color: "white" }}>Sistema</Navbar.Link>
+                        <Navbar.Link href="#" style={{ color: "white" }}>Opción A</Navbar.Link>
                         <Button
                             color="failure"
                             size="xs"
@@ -56,4 +55,4 @@ const AdminLayout = () => {
     )
 }
 
-export default AdminLayout
+export default DocenteLayout

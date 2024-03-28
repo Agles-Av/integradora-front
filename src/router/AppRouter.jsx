@@ -7,15 +7,15 @@ import React, { useContext, useState, useEffect } from 'react'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import SignInPage from '../modules/auth/SignInPage';
 import AuthContext from '../config/context/auth-context';
-import AdminHome from '../modules/admin/AdminHome';
 import AdminLayout from '../modules/admin/AdminLayout';
 import UsersList from '../modules/admin/UsersList';
 import SystemEdit from '../modules/admin/SystemEdit';
 import EstudianteLayout from '../modules/estudiante/EstudianteLayout';
-import DocenteLayout from '../modules/docente/Pantallas/DocenteLayout';
+import DocenteLayout from '../modules/docente/DocenteLayout';
 import EstudianteHome from '../modules/estudiante/EstudianteHome';
 import EstudianteExamen from '../modules/estudiante/EstudianteExamen';
 import EstudianteHistorialEx from '../modules/estudiante/EstudianteHistorialEx';
+import ClasesList from '../modules/docente/Pantallas/ClasesList';
 
 
 function AppRouter() {
@@ -45,8 +45,7 @@ function AppRouter() {
             </Route>
           ) : user.signed && role === "DOCENTE_ROLE" ? (
             <Route path='/' element={<DocenteLayout />}>
-              <Route path='homeDocente' element={<>DOCENTEHOME</>} />
-
+              <Route path='homeDocente' element={<ClasesList />} />
             </Route>
           ) : user.signed && role === "ESTUDIANTE_ROLE" ? (
             <Route path='/' element={<EstudianteLayout />}>

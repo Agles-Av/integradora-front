@@ -40,6 +40,7 @@ function SignInPage(props) {
             navigate("/homeAdmin", { replace: true });
           }else if(response.data.roles.name === 'DOCENTE_ROLE'){
             navigate("/homeDocente", { replace: true });
+            localStorage.setItem('idDocente', response.data.user.id);
           }else if(response.data.roles.name === 'ESTUDIANTE_ROLE'){
             navigate("/homeEstudiante", { replace: true });
             console.log(response.data.user.id);
