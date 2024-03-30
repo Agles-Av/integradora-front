@@ -16,6 +16,9 @@ import EstudianteHome from '../modules/estudiante/EstudianteHome';
 import EstudianteExamen from '../modules/estudiante/EstudianteExamen';
 import EstudianteHistorialEx from '../modules/estudiante/EstudianteHistorialEx';
 import ClasesList from '../modules/docente/Pantallas/ClasesList';
+import ExamenesList from '../modules/docente/Pantallas/ExamenesList';
+import CreacionExamen from '../components/docente/CreacionExamen';
+import EditarExamen from '../components/docente/EditarExamen';
 
 
 function AppRouter() {
@@ -42,16 +45,21 @@ function AppRouter() {
               <Route path='system' element={<SystemEdit />} />
               <Route path='/' element={<UsersList />} />
               <Route path='users' element={<UsersList />} />
+              <Route path='homeAdmin' element={<UsersList />} />
             </Route>
           ) : user.signed && role === "DOCENTE_ROLE" ? (
             <Route path='/' element={<DocenteLayout />}>
+              <Route path='/' element={<ClasesList />} />
               <Route path='homeDocente' element={<ClasesList />} />
+              <Route path='examenes' element={<ExamenesList />} />
+              <Route path='crearExamen' element={<CreacionExamen />} />
+              <Route path='editarExamen' element={<EditarExamen />} />
             </Route>
           ) : user.signed && role === "ESTUDIANTE_ROLE" ? (
             <Route path='/' element={<EstudianteLayout />}>
-              <Route path='homeEstudiante' element={<EstudianteHome/>} />
-              <Route path='examen' element={<EstudianteExamen/>} />
-              <Route path='historial' element={<EstudianteHistorialEx/>} />
+              <Route path='homeEstudiante' element={<EstudianteHome />} />
+              <Route path='examen' element={<EstudianteExamen />} />
+              <Route path='historial' element={<EstudianteHistorialEx />} />
 
             </Route>
           ) : <Route path='/' element={<SignInPage reload={setReload} />} />

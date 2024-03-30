@@ -39,7 +39,7 @@ const ModalCreateClass = ({ openModal, setOpenModal, getClasses }) => {
                     if (!response) {
                         setOpenModal(false);
                         customAlert("Éxito", "Clase creada correctamente", "success")
-                        getAllUsers();
+                        getClasses();
                         closeModal();
                     }
                     return response;

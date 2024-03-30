@@ -6,14 +6,17 @@ import AxiosCliente from '../../../config/htpp-gateway/http-client';
 import ModalCreateClass from '../../../components/docente/ModalCreateClass';
 import { customAlert, confirmAlert } from '../../../config/alert/alert'
 import ModalUpdateClass from '../../../components/docente/ModalUpdateClass';
+import { useNavigate } from 'react-router-dom';
 
 const ClasesList = () => {
+    const navigate = useNavigate();
     const [filterText, setFilterText] = useState("");
     const [idDoc, setIdDoc] = useState(localStorage.getItem('idDocente'));
     const [clases, setClases] = useState([]);
     const [openCreate, setOpenCreate] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
     const [classData, setClassData] = useState(null);
+    const [dataClass, setDataClass] = useState([]);
     console.log(idDoc);
 
     const getClases = async () => {
@@ -62,6 +65,10 @@ const ClasesList = () => {
         setOpenUpdate(true);
         setClassData(data);
     }
+    const handleCardClick = (data) => {
+        navigate("/examenes", { state: { data } });
+        setDataClass(data);
+      }
 
     return (
         <div>
@@ -82,7 +89,7 @@ const ClasesList = () => {
                         const docenteId = idDoc.toString().toLowerCase();
                         if (usuarioId === docenteId) {
                             return (
-                                <Card key={index} className="mx-auto mb-5 p-4 flex-grow border w-64" style={{ backgroundColor: '#13505B' }}>
+                                <Card key={index} className="mx-auto mb-5 p-4 flex-grow border w-64" style={{ backgroundColor: '#13505B', cursor: 'pointer'}} onClick={() => handleCardClick(clase)}>
                                     <div className='d-flex align-items-center justify-content-center h-20' style={{ background: '#13505B', color: 'white' }}>
                                         <h1 style={{ fontSize: '24px' }} >{clase.name}</h1>
                                     </div>
