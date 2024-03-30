@@ -33,7 +33,7 @@ const DocenteLayout = () => {
                     <Navbar.Toggle />
 
                     <Navbar.Collapse >
-                        <Navbar.Link href="#" style={{ color: "white" }}>Opción A</Navbar.Link>
+                        <Navbar.Link href="homeDocente" style={{ color: "white" }}>Clases</Navbar.Link>
                         <Button
                             color="failure"
                             size="xs"
