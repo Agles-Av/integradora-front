@@ -19,6 +19,7 @@ import ClasesList from '../modules/docente/Pantallas/ClasesList';
 import ExamenesList from '../modules/docente/Pantallas/ExamenesList';
 import CreacionExamen from '../components/docente/CreacionExamen';
 import EditarExamen from '../components/docente/EditarExamen';
+import CalificacionesList from '../modules/docente/Pantallas/CalificacionesList';
 
 
 function AppRouter() {
@@ -54,6 +55,7 @@ function AppRouter() {
               <Route path='examenes' element={<ExamenesList />} />
               <Route path='crearExamen' element={<CreacionExamen />} />
               <Route path='editarExamen' element={<EditarExamen />} />
+              <Route path='calificaciones' element={<CalificacionesList />} />
             </Route>
           ) : user.signed && role === "ESTUDIANTE_ROLE" ? (
             <Route path='/' element={<EstudianteLayout />}>

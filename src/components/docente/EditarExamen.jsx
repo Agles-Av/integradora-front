@@ -27,11 +27,13 @@ const EditarExamen = () => {
         clase: {
             id: ""
         },
+        code:"",
         examen: {
             id: examenId
         },
         preguntas: []
     });
+    console.log("examen", examData);
 
     const [questions, setQuestions] = useState([]);
 
@@ -159,6 +161,37 @@ const handleNewSelectOption = (questionIndex, optionIndex) => {
     setNuevasPreguntas(updatedQuestions);
 };
 
+const changeStatus = async () => {
+    try {
+        const payload = {
+            id: examData.id,
+            title: formik.values.title,
+            description: formik.values.description,
+            clase: {
+                id: formik.values.clase.id
+            },
+            code:examData.code,
+            examen: {
+                id: 3,
+            }
+        };
+        console.log("payload", payload);
+        const response = await AxiosCliente({
+            method: 'PUT',
+            url: `/examen/${examenId}`,
+            data: payload
+        });
+        console.log(response);
+        if (response.status === 'OK') {
+            customAlert("Éxito", "Examen terminado correctamente", "success")
+            navigate(-1);
+        }
+        return response;
+    } catch (error) {
+        customAlert("Error", "Ocurrió un error al terminar el examen", "error")
+    }
+};
+
     useEffect(() => {
         const getExam = async () => {
             try {
@@ -167,7 +200,6 @@ const handleNewSelectOption = (questionIndex, optionIndex) => {
                     method: "GET",
                 });
                 if (!response.error) {
-                    console.log("examen es:", response.data);
                     setExamData({
                         id: response.data.id,
                         title: response.data.title,
@@ -178,6 +210,7 @@ const handleNewSelectOption = (questionIndex, optionIndex) => {
                         examen: {
                             id: response.data.examen.id
                         },
+                        code:response.data.code,
                         preguntas: response.data.preguntas
                     });
                 }
@@ -315,7 +348,7 @@ const handleNewSelectOption = (questionIndex, optionIndex) => {
                                                     <Label className="form-control" placeholder={`Opción ${optionIndex + 1}`} value={option.nombre} onChange={(event) => handleOptionChange (index, optionIndex, event)} />
                                                 </div>
                                             ))}
-                                            <Button pill outline color='success' onClick={() => addOptionToQuestion(index)}> <FaPlus /> </Button>
+                                            <Button pill outline color='success' onClick={() => addOption(index)}> <FaPlus /> </Button>
                                         </div>
                                     )}
                                 </div>
@@ -358,7 +391,8 @@ const handleNewSelectOption = (questionIndex, optionIndex) => {
                     </div>
                 </div>
                 <div className='flex justify-end m-3 p-4'>
-                    <Button pill outline color='success' form='saveExam' type="submit" disabled={formik.isSubmitting || !formik.isValid} >Guardar</Button>
+                    <Button pill outline color='warning' form='saveExam' type="submit" disabled={formik.isSubmitting || !formik.isValid} >Guardar y Salir</Button>
+                    <Button pill outline color='info' onClick={changeStatus} type="submit" form='saveExam'>Terminar</Button>
                 </div>
             </form>
         </div>

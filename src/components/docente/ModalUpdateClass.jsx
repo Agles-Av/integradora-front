@@ -10,6 +10,7 @@ const ModalUpdateClass = ({ openModalUp, setOpenModalUp, getClasses, data }) => 
         formik.resetForm();
         setOpenModalUp(false);
     };
+    const id = data.id;
 
 
     const formik = useFormik({
@@ -26,28 +27,29 @@ const ModalUpdateClass = ({ openModalUp, setOpenModalUp, getClasses, data }) => 
                     const payload = {
                         ...values,
                         usuario: {
-                            id: idDoc
+                            id: data.usuario.id
                         }
                     }
                     console.log(payload);
                     const response = await AxiosCliente({
-                        method: 'POST',
-                        url: '/clase/',
+                        method: 'PUT',
+                        url: '/clase/'+id,
                         data: payload
                     });
-                    if (!response) {
+                    if (response.status === 'OK') {
                         setOpenModalUp(false);
                         customAlert("Éxito", "Clase editada correctamente", "success")
-                       // getClasses();
+                        getClasses();
                         closeModal();
                     }
                     return response;
                 } catch (error) {
+                    console.log(error);
                     customAlert("Error", "Ocurrió un error al editar la clase", "error")
                 } finally {
                     setSubmitting(false)
                     closeModal();
-                   // getClasses();
+                    getClasses();
                 }
             })
         }
