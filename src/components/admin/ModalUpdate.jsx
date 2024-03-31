@@ -15,6 +15,7 @@ const ModalUpdate = ({ openModalUp, setOpenModalUp, getAllUsers, data }) => {
     initialValues: {
       id: data.id,
       email: data.email,
+      password: data.password,
       role: data.role.id,
       name: data.person.name,
       surname: data.person.surname,
@@ -40,7 +41,9 @@ const ModalUpdate = ({ openModalUp, setOpenModalUp, getAllUsers, data }) => {
             role: {
               id: values.role,
             },
+            password: data.password,
             person: {
+              id:values.id,
               name: values.name,
               surname: values.surname,
               lastname: values.lastname,
@@ -48,13 +51,17 @@ const ModalUpdate = ({ openModalUp, setOpenModalUp, getAllUsers, data }) => {
               matricula: values.matricula,
             }
           }
-          console.log(payload);
+          console.log("banana -1");
+          console.log("payload",payload);
+          console.log("banana");
           const response = await AxiosCliente({
-            method: 'POST',
-            url: '/usuario/',
+            method: 'PUT',
+            url: '/usuario/'+data.id,
             data: payload
           });
-          if (!response.error) {
+          console.log(response);
+
+          if (response.status === 'OK') {
             setOpenModalUp(false);
             customAlert("Éxito", "Usuario actualizado correctamente", "success")
             getAllUsers();
@@ -65,7 +72,9 @@ const ModalUpdate = ({ openModalUp, setOpenModalUp, getAllUsers, data }) => {
           console.log(error);
           customAlert("Error", "Ocurrió un error al actualizar el usuario", "error")
         } finally {
-          setSubmitting(false)
+          setSubmitting(false);
+          getAllUsers();
+          closeModal();
         }
       })
     }

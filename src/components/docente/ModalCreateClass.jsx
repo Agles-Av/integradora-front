@@ -36,7 +36,7 @@ const ModalCreateClass = ({ openModal, setOpenModal, getClasses }) => {
                         url: '/clase/',
                         data: payload
                     });
-                    if (!response) {
+                    if (response.status === 'OK') {
                         setOpenModal(false);
                         customAlert("Éxito", "Clase creada correctamente", "success")
                         getClasses();

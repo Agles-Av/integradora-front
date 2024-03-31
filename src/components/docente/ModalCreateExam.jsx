@@ -43,7 +43,7 @@ const ModalCreateExam = ({ openModal, setOpenModal, getExams}) => {
                         url: '/examen/',
                         data: payload
                     });
-                    if (!response) {
+                    if (response.status === 'OK') {
                         setOpenModal(false);
                         customAlert("Éxito", "Examen creado correctamente", "success")
                         getExams();

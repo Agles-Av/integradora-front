@@ -87,10 +87,10 @@ const UsersList = () => {
             try {
                 const response = await AxiosCliente({
                     method: 'DELETE',
-                    url: '/usuario/' + id
+                    url: '/usuario/deleteUser/' + id
                 });
                 console.log("Respuesta del servidor:", response);
-                if (!response.error) {
+                if (response.status === 'OK') {
                     customAlert("Éxito", "Usuario eliminado", "success")
                     getUsers();
                 }
@@ -98,6 +98,7 @@ const UsersList = () => {
             } catch (error) {
                 customAlert("Error", "Ocurrió un error al eliminar al usuario", "error")
             } finally {
+                getUsers();
             }
         })
     }
@@ -148,7 +149,7 @@ const UsersList = () => {
                     <TableComponent columns={columns} data={filter()} progress={loading} />
                 </Card>
             </section>
-            {openModalUp && <ModalUpdate data={userData} openModalUp={openModalUp} setOpenModalUp={setOpenModalUp} />}
+            {openModalUp && <ModalUpdate data={userData} openModalUp={openModalUp} setOpenModalUp={setOpenModalUp} getAllUsers={getUsers}/>}
         </>
     )
 }

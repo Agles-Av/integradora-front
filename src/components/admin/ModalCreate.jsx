@@ -59,7 +59,7 @@ const ModalCreate = ({ openModal, setOpenModal, getAllUsers }) => {
                         url: '/usuario/',
                         data: payload
                     });
-                    if (!response) {
+                    if (response.status === 'OK') {
                         setOpenModal(false);
                         customAlert("Éxito", "Usuario registrado correctamente", "success")
                         getAllUsers();

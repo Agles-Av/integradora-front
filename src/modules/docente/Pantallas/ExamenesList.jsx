@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Card, Badge } from 'flowbite-react';
+import { Button, Card, Badge, Banner } from 'flowbite-react';
 import { faPencil, faArrowRight, faPaperPlane, faBriefcaseClock, faLocationArrow, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { HiMiniClipboardDocumentList } from "react-icons/hi2";
 import { FaRegCopy, FaSearch, FaPlus } from "react-icons/fa";
 import ModalCreateExam from '../../../components/docente/ModalCreateExam';
 import AxiosCliente from '../../../config/htpp-gateway/http-client';
 import { useNavigate } from 'react-router-dom';
+import { HiX } from "react-icons/hi";
+import { MdAnnouncement } from "react-icons/md";
+import { customAlert, confirmAlert } from '../../../config/alert/alert';
 
 const ExamenesList = () => {
     const navigate = useNavigate();
@@ -31,7 +34,6 @@ const ExamenesList = () => {
 
     const location = useLocation();
     const { data } = location.state;
-    console.log("data", data);
 
     const dataExamenPrueba = [
         {
@@ -87,7 +89,6 @@ const ExamenesList = () => {
                 url: "/examen/",
                 method: "GET",
             });
-            console.log("banana",response);
             if (!response.error) {
                 setExamenes(response.data);
             }
@@ -103,14 +104,48 @@ const ExamenesList = () => {
     }, []);
     
     const handleCardClick = (dataClass) => {
-        console.log("data", dataClass);
         navigate("/crearExamen", { state: { dataClass } });
       }
 
       const irAEditar = (examenId) =>{
         navigate("/editarExamen", { state: { examenId } });
-        console.log(examenId);
       }
+
+      
+
+const changeStatus = async (examData) => {
+    try {
+        const payload = {
+            id: examData.id,
+            title: examData.title,
+            description: examData.description,
+            clase: {
+                id: examData.clase.id
+            },
+            code:examData.code,
+            examen: {
+                id: 4,
+            }
+        };
+        const response = await AxiosCliente({
+            method: 'PUT',
+            url: `/examen/${examData.id}`,
+            data: payload
+        });
+        if (response.status === 'OK') {
+            customAlert("Éxito", "El exámen esta activo para su realizacion", "success");
+            getExams();
+        }
+        return response;
+    } catch (error) {
+        console.log(error);
+        customAlert("Error", "Ocurrió un error al activar el exámen", "error")
+        getExams();
+    }
+};
+const goCalificar = (examenId) => {
+    navigate("/calificaciones", { state: { examenId } });
+};
 
     return (
         <div className='flex justify-center'>
@@ -125,12 +160,31 @@ const ExamenesList = () => {
                     <div className='flex justify-end py-2'>
                         <Button pill outline color='success' onClick={() => handleCardClick(data)}> <FaPlus /> </Button>
                     </div>
+                    <div>
+                        
+            <Banner>
+                <div className="flex w-full justify-between border-b border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700">
+                    <div className="mx-auto flex items-center">
+                        <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+                            <MdAnnouncement className="mr-4 h-4 w-4" />
+                            <span className="[&_p]:inline">
+                                Puede seleccionar un examen para editarlo o ver los resultados según sea su estado. Presione el botón "+" para crear un nuevo examen.
+                            </span>
+                        </p>
+                    </div>
+                    <Banner.CollapseButton color="gray" className="border-0 bg-transparent text-gray-500 dark:text-gray-400">
+                        <HiX className="h-4 w-4" />
+                    </Banner.CollapseButton>
+                </div>
+            </Banner>
+                    </div>
 
                 {examenes
                     .filter((examen) => {
                         return examen.title.toLowerCase().includes(filterText.toLowerCase());
                     })
                     .map((examen, index) => {
+                        console.log(examen);
                         const claseId = examen.clase.id.toString().toLowerCase();
                         const esta = data.id.toString().toLowerCase();
                         if (claseId === esta) {
@@ -161,7 +215,7 @@ const ExamenesList = () => {
                                 <Card className="py-4 h-20 flex justify-center tems-center" style={{ backgroundColor: '#119DA4' }}>
                                     <div className="flex gap-4 items-center" onClick={() => copyToClipboard(examen.codigo)}>
                                         <FaRegCopy size={28} style={{ color: 'black', cursor: 'pointer'  }} />
-                                        <p className="text-xl text-white">{examen.codigo}</p>
+                                        <p className="text-xl text-white">{examen.code}</p>
                                     </div>
                                 </Card>
                             ) : null;
@@ -169,7 +223,7 @@ const ExamenesList = () => {
                             const options = examen.examen.id === 1 ? (
                                 <div className="flex justify-around items-center">
                                     <Button pill outline color='light' className="mr-2">
-                                        <FontAwesomeIcon icon={faUsers} className="text-3xl text-blue-600" />
+                                        <FontAwesomeIcon icon={faUsers} onClick={() => goCalificar(examen.id)} className="text-3xl text-blue-600" />
                                     </Button>
                                     <Button pill outline color='light' className="mr-2">
                                         <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
@@ -184,7 +238,7 @@ const ExamenesList = () => {
                             ): examen.examen.id === 3 ? (
                                 <div className="flex justify-around items-center">
                                 <Button pill outline color='light' className="mr-2">
-                                    <FontAwesomeIcon icon={faUsers} className="text-3xl text-blue-600" />
+                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen)} className="text-3xl text-blue-600" />
                                 </Button>
                                     <Button pill outline color='light' className="mr-2">
                                         <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />

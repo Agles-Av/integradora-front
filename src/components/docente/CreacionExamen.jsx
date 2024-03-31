@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, FloatingLabel, TextInput, Radio, Textarea, Label } from "flowbite-react";
+import { Button, FloatingLabel, TextInput, Radio, Textarea, Banner } from "flowbite-react";
 import { useLocation } from 'react-router-dom';
 import { useFormik } from 'formik';
 import AxiosCliente from '../../config/htpp-gateway/http-client';
@@ -7,6 +7,8 @@ import * as yup from 'yup';
 import { FaRegCopy, FaSearch, FaPlus } from "react-icons/fa";
 import { customAlert, confirmAlert } from '../../config/alert/alert'
 import { useNavigate } from 'react-router-dom';
+import { HiX } from "react-icons/hi";
+import { MdAnnouncement } from "react-icons/md";
 
 const CreacionExamen = () => {
     const location = useLocation();
@@ -25,8 +27,15 @@ const CreacionExamen = () => {
         preguntas: []
     });
 
-
-    const [questions, setQuestions] = useState([]);
+    const handleFinishClick = () => {
+        // Actualizar el id del examen a 3 pa decir que se terminó
+        setExamData(prevData => ({
+            ...prevData,
+            examen: {
+                id: 3
+            }
+        }));
+    };
 
     const addQuestion = (type) => {
         console.log("La pregunta es ", type);
@@ -117,7 +126,6 @@ const CreacionExamen = () => {
                         },
                         examen: {
                             id: values.examen.id,
-                            name_state: "No publicado" // Agregar el campo 'name_state'
                         },
                         preguntas: values.preguntas.map(question => ({
                             name: question.name,
@@ -125,7 +133,7 @@ const CreacionExamen = () => {
                             respuestas: question.respuestas
                         }))
                     };
-                    console.log("payload",payload);
+                    console.log("payload", payload);
                     const response = await AxiosCliente({
                         method: 'POST',
                         url: '/examen/',
@@ -153,11 +161,21 @@ const CreacionExamen = () => {
                 id: dataClass.id
             },
             examen: {
-                id: 2
+                id: examData.examen.id
             },
             preguntas: examData.preguntas
         });
     }, [examData]);
+
+    useEffect(() => {
+        // Actualizar el id del examen a 3 cuando se haga clic en el botón "Terminar"
+        formik.setValues(prevValues => ({
+            ...prevValues,
+            examen: {
+                id: examData.examen.id
+            }
+        }));
+    }, [examData.examen.id]);
 
     const handleExamTitleChange = (event) => {
         formik.handleChange(event); // Actualizar el valor en el estado de Formik
@@ -192,7 +210,7 @@ const CreacionExamen = () => {
                                 } />
                         </div>
                         <div className='my-3 max-w-2xl'>
-                            <FloatingLabel variant="standard" label="Descripción del exámen" style={{ color: '#0C7489', fontSize: 24 }}
+                            <FloatingLabel variant="standard" label="Descripción del exámen" style={{ color: '#0C7489', fontSize: 20 }}
                                 onChange={handleDescriptionChange}
                                 name='description'
                                 value={examData.description}
@@ -205,6 +223,23 @@ const CreacionExamen = () => {
                     </div>
                 </div>
 
+                <div>
+                    <Banner>
+                        <div className="flex w-full justify-between border-b border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700">
+                            <div className="mx-auto flex items-center">
+                                <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+                                    <MdAnnouncement className="mr-4 h-4 w-4" />
+                                    <span className="[&_p]:inline">
+                                        Para las preguntas de opción múltiple, seleccione la respuesta correcta con el radio button, para las preguntas abiertas solo debe ingresar una posible respuesta correcta
+                                    </span>
+                                </p>
+                            </div>
+                            <Banner.CollapseButton color="gray" className="border-0 bg-transparent text-gray-500 dark:text-gray-400">
+                                <HiX className="h-4 w-4" />
+                            </Banner.CollapseButton>
+                        </div>
+                    </Banner>
+                </div>
                 <div className='justify-center my-5 border rounded-md grid' style={{ border: '1px solid #0C7489', background: '#D9D9D9' }}>
                     <div className='m-3 p-4'>
 
@@ -245,7 +280,8 @@ const CreacionExamen = () => {
                     </div>
                 </div>
                 <div className='flex justify-end m-3 p-4'>
-                    <Button pill outline color='success' form='saveExam' type="submit" disabled={formik.isSubmitting || !formik.isValid} >Guardar</Button>
+                    <Button pill outline color='warning' form='saveExam' type="submit" disabled={formik.isSubmitting || !formik.isValid}> Guardar y Salir</Button>
+                    <Button pill outline color='info' onClick={handleFinishClick} type="submit" form='saveExam' disabled={formik.isSubmitting || !formik.isValid}>Terminar</Button>
                 </div>
             </form>
         </div>
