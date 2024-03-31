@@ -90,7 +90,7 @@ function EstudianteExamen() {
   const  getExamHistory = async () => {
     try {
       const response = await AxiosCliente({
-        url:"/usuariorespuesta/examenHecho/"+idEstudiante,
+        url:"/usuariorespuesta/examencode/"+idEstudiante,
         method:"GET"
       })
       if(!response.error)
