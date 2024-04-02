@@ -113,27 +113,14 @@ const ExamenesList = () => {
 
       
 
-const changeStatus = async (examData) => {
+const changeStatus = async (examData,statusData) => {
     try {
-        const payload = {
-            id: examData.id,
-            title: examData.title,
-            description: examData.description,
-            clase: {
-                id: examData.clase.id
-            },
-            code:examData.code,
-            examen: {
-                id: 4,
-            }
-        };
         const response = await AxiosCliente({
             method: 'PUT',
-            url: `/examen/${examData.id}`,
-            data: payload
+            url: `/estadoE/changeStatus/${examData}/${statusData}`,
         });
         if (response.status === 'OK') {
-            customAlert("Éxito", "El exámen esta activo para su realizacion", "success");
+            customAlert("Éxito", "Estado cambiado", "success");
             getExams();
         }
         return response;
@@ -227,7 +214,12 @@ const goCalificar = (examenId) => {
                                     </Button>
                                     <Button pill outline color='light' className="mr-2">
                                         <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
-                                    </Button>
+                                    </Button><div className="flex justify-around items-center">
+                                <Button pill outline color='light' className="mr-2">
+                                    {/*Activar Examen*/}
+                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id,4)} className="text-3xl text-blue-600" />
+                                </Button>
+                                </div>
                                 </div>
                             ): examen.examen.id === 2 ? (
                                 <div className="flex justify-around items-center">
@@ -238,11 +230,19 @@ const goCalificar = (examenId) => {
                             ): examen.examen.id === 3 ? (
                                 <div className="flex justify-around items-center">
                                 <Button pill outline color='light' className="mr-2">
-                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen)} className="text-3xl text-blue-600" />
+                                    {/*Activar Examen*/}
+                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id,4)} className="text-3xl text-blue-600" />
                                 </Button>
                                     <Button pill outline color='light' className="mr-2">
                                         <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
                                     </Button>
+                                </div>
+                            ): examen.examen.id === 4 ? (
+                                <div className="flex justify-around items-center">
+                                <Button pill outline color='light' className="mr-2">
+                                    {/*Desactivar Examen*/}
+                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id,1)} className="text-3xl text-blue-600" />
+                                </Button>
                                 </div>
                             ): null;
 

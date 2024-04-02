@@ -56,6 +56,7 @@ function AppRouter() {
               <Route path='crearExamen' element={<CreacionExamen />} />
               <Route path='editarExamen' element={<EditarExamen />} />
               <Route path='calificaciones' element={<CalificacionesList />} />
+              <Route path='verexamen' element={<EstudianteHistorialEx />} />
             </Route>
           ) : user.signed && role === "ESTUDIANTE_ROLE" ? (
             <Route path='/' element={<EstudianteLayout />}>
