@@ -42,7 +42,7 @@ const CreacionExamen = () => {
         const newQuestion = {
             name: '',
             tipo: type === 'closed',
-            respuestas: type === 'closed' ? [{ nombre: '', correcta: false }, { nombre: '', correcta: false }] : [{ nombre: '', correcta: true }],
+            respuestas: type === 'closed' ? [{ nombre: '', correcta: true }, { nombre: '', correcta: false }] : [{ nombre: '', correcta: true }],
         };
         setExamData(prevData => ({
             ...prevData,
@@ -240,6 +240,8 @@ const CreacionExamen = () => {
                         </div>
                     </Banner>
                 </div>
+
+
                 <div className='justify-center my-5 border rounded-md grid' style={{ border: '1px solid #0C7489', background: '#D9D9D9' }}>
                     <div className='m-3 p-4'>
 

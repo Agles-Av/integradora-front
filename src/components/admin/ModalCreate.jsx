@@ -93,7 +93,7 @@ const ModalCreate = ({ openModal, setOpenModal, getAllUsers }) => {
                                         <TextInput
                                             htmlFor='email'
                                             name='email'
-                                            type='email'
+                                            type='text'
                                             placeholder='correo@Ejemplo.com'
                                             value={formik.values.email}
                                             onChange={formik.handleChange}
