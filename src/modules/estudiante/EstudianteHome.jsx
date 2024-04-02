@@ -71,7 +71,8 @@ function EstudianteHome() {
     getExamHistory();
   }, []);
 
-  const handleCardClick = (examenData) => {
+  const userDocente=false;
+  const handleCardClick = (examenData, userD) => {
     navigate("/historial", { state: { examenData } });
     setDataHistory(examenData);
   }
@@ -99,7 +100,7 @@ function EstudianteHome() {
             })
           .map((item, index) => (
             <div key={index} className='flex flex-row w-full '>
-              <Card className="mt-4  mr-3 ml-3 p-4 flex w-full h-64 border border-green-500" onClick={() => handleCardClick(item)} >
+              <Card className="mt-4  mr-3 ml-3 p-4 flex w-full h-64 border border-green-500" onClick={() => handleCardClick(item, userDocente)} >
                 <div className='flex flex-row justify-between'>
                   <div>
                     <MdClass size={24} />

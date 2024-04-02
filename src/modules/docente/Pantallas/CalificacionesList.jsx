@@ -43,9 +43,10 @@ const CalificacionesList = () => {
         updateCalificacion(cali, newCali);
     }
 
-    const verExamen = (examenData) => {
-        navigate("/verexamen", { state: { examenData } });
+    const verExamen = (examenData, user) => {
+        navigate("/verexamen", { state: { examenData, user } });
     }
+    const userD = true;
 
     const updateCalificacion = async (cali, newCali) => {
         try {
@@ -143,7 +144,7 @@ const CalificacionesList = () => {
                                     <Card className="mx-auto mb-5 p-4 flex-grow border h-fit">
                                         <div className='d-flex align-items-center justify-content-center mb-6'>
                                             <h1 style={{ fontSize: '20px' }} >Calificación : {cali.calificacion}</h1>
-                                            <Button pill outline color='light' className="mx-2" onClick={() => verExamen(cali)}>
+                                            <Button pill outline color='light' className="mx-2" onClick={() => verExamen(cali, userD)}>
                                                 <FontAwesomeIcon icon={faPencil} style={{ color: '#13505B' }} />
                                             </Button>
                                         </div>
