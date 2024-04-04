@@ -212,9 +212,7 @@ const goCalificar = (examenId) => {
                                     <Button pill outline color='light' className="mr-2">
                                         <FontAwesomeIcon icon={faUsers} onClick={() => goCalificar(examen.id)} className="text-3xl text-blue-600" />
                                     </Button>
-                                    <Button pill outline color='light' className="mr-2">
-                                        <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
-                                    </Button><div className="flex justify-around items-center">
+                                    <div className="flex justify-around items-center">
                                 <Button pill outline color='light' className="mr-2">
                                     {/*Activar Examen*/}
                                     <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id,4)} className="text-3xl text-blue-600" />

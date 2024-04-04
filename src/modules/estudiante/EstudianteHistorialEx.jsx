@@ -4,8 +4,10 @@ import { FaCheck } from "react-icons/fa";
 import { RiCloseLine } from "react-icons/ri"; // Cambiado a RiCloseLine
 import { Label, Radio, Banner, Button } from 'flowbite-react';
 import AxiosCliente from '../../config/htpp-gateway/http-client';
+import { useNavigate } from 'react-router-dom';
 
 function EstudianteHistorialEx() {
+  const navigate = useNavigate();
   const location = useLocation();
   const { user } = location.state;
   const [loading, setLoading] = useState(false);
@@ -56,14 +58,29 @@ function EstudianteHistorialEx() {
   console.log("respuestas", respuestas);
 
 
-  const isWrong = (respuesta) => { 
-    console.log("Ahora esta mal");
+  const changeValue = async(respuesta) => { 
+    console.log("Cambiando estado");
+    try {
+      const response = await AxiosCliente({
+        method: 'PUT',
+        url: '/usuariorespuesta/correcta/'+respuesta.id,
+      });
+      console.log(response);
+
+      if (response.status === 'OK') {
+        setOpenModalUp(false);
+        getRespuestaUsuario();
+      }
+      return response;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      getRespuestaUsuario();
+    }
   }
-
-
-  const isRigth = (respuesta) => {
-    console.log("Ahora está bien");
-   }
+  const back = () => {
+        navigate(-1);
+  }
 
 
   return (
@@ -87,10 +104,11 @@ function EstudianteHistorialEx() {
                 <h1 className='text-lg font-bold text-green-700'>{pregunta.name}</h1>
                 {respuestas.map((respuesta, idx) => {
                   const botones = user ? (
-                    <div className='flex justify-end' key={idx}>
-                      <Button pill outline color='light' className="mr-2"><FaCheck color='green' onClick={() => isRigth(respuesta)} /></Button>
-                      <Button pill outline color='light' className="mr-2"><RiCloseLine color='red' onClick={() => isWrong(respuesta)} /></Button>
-                    </div>
+                    respuesta.correcta ? (<div className='flex justify-end' key={idx}>
+                    <Button pill outline color='light' className="mr-2"><FaCheck color='green' onClick={() => changeValue(respuesta)} /></Button>
+                  </div>):(<div className='flex justify-end' key={idx}>
+                      <Button pill outline color='light' className="mr-2"><RiCloseLine color='red' onClick={() => changeValue(respuesta)} /></Button>
+                    </div>)
                   ) : null;
 
                   return respuesta.pregunta.id === pregunta.id ? (
@@ -115,6 +133,7 @@ function EstudianteHistorialEx() {
               </div>
             </div>
           ))}
+          <Button pill outline color='light' onClick={() => back()}>Regresar</Button>
         </div>
       </div>
     </div>
