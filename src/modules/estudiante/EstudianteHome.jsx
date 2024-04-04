@@ -100,7 +100,7 @@ function EstudianteHome() {
             })
           .map((item, index) => (
             <div key={index} className='flex flex-row w-full '>
-              <Card className="mt-4  mr-3 ml-3 p-4 flex w-full h-64 border border-green-500" onClick={() => handleCardClick(item, userDocente)} >
+              <Card className="mt-4  mr-3 ml-3 p-4 flex w-full h-64 border border-green-500" onClick={() => handleCardClick(item, userDocente)} style={{cursor: 'pointer'}}>
                 <div className='flex flex-row justify-between'>
                   <div>
                     <MdClass size={24} />

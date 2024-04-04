@@ -96,7 +96,7 @@ const ClasesList = () => {
                     </Banner.CollapseButton>
                 </div>
             </Banner>
-            <div className='flex flex-wrap mt-4 mx-5 mr-3 p-4 border-b border-gray-700 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 h-full justify-evenly' style={{ backgroundColor: '#D9D9D9' }}>
+            <div className='flex flex-wrap mt-4 mx-5 mr-3 p-4 border-b border-gray-700 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 h-full justify-start' style={{ backgroundColor: '#D9D9D9' }}>
 
                 {clases
                     .filter((clase) => {

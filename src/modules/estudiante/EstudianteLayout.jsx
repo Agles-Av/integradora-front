@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Navbar, Button } from 'flowbite-react';
+import { Navbar, Button, NavbarToggle } from 'flowbite-react';
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { Outlet, useNavigate } from 'react-router-dom';
 import AuthContext from '../../config/context/auth-context'; 
@@ -32,16 +32,10 @@ function EstudianteLayout() {
               SIGEU - ESTUDIANTE
             </span>
           </Navbar.Brand>
-          <div className="flex items-end">
-            <GoHomeFill
-            size={24}
-            color='white'
-            onClick={() => navigate('/homeEstudiante',{replace:true})}
-            />
-            <Navbar.Toggle />
-          </div>
-
-          <div className="flex md:order-2">
+          <Navbar.Toggle/>
+          
+            <Navbar.Collapse>
+            <Navbar.Link onClick={() => navigate('/homeEstudiante',{replace:true})} style={{ color: "white" }}>Inicio</Navbar.Link>
             <Button 
               color="failure" 
               size="xs"
@@ -50,9 +44,7 @@ function EstudianteLayout() {
               <FaSignOutAlt className="mr-2" />
               Cerrar Sesión
             </Button>
-            <Navbar.Toggle />
-          </div>
-
+            </Navbar.Collapse>
         </Navbar>
       </header>
       <div className="flex">

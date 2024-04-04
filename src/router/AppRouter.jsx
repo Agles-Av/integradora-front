@@ -20,19 +20,39 @@ import ExamenesList from '../modules/docente/Pantallas/ExamenesList';
 import CreacionExamen from '../components/docente/CreacionExamen';
 import EditarExamen from '../components/docente/EditarExamen';
 import CalificacionesList from '../modules/docente/Pantallas/CalificacionesList';
+import AxiosCliente from '../config/htpp-gateway/http-client';
 
 
 function AppRouter() {
   const [role, setRole] = useState(localStorage.getItem('role'));
-
+  const [loading, setLoading] = useState(false);
+  const [colorsAA, setColorsAA] = useState([{ color1: '', color2: '', color3: '' }]);
   const [reload, setReload] = useState(false);
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
     setRole(localStorage.getItem('role'));
     console.log(role);
+    getColors();
   }, [reload]);
-
+  const getColors = async () => {
+    try {
+        setLoading(true);
+        const response = await AxiosCliente({
+            url: "/sistema/",
+            method: "GET",
+        });
+        if (response.status === 'OK') {
+            console.log(response);
+            setColorsAA(response.data);
+        }
+    } catch (error) {
+        console.log(error);
+    } finally {
+        setLoading(false);
+    }
+}
+console.log("colorAA", colorsAA);
   const router = createBrowserRouter( // es el diagrama q me enseño const router crea el elemeto grande aun sin usarse 
     createRoutesFromElements( //hacer comparacion con aside
       <>

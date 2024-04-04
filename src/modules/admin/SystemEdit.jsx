@@ -1,64 +1,212 @@
-import { Card, TextInput, Label, Button} from 'flowbite-react'
-import React from 'react'
+import { Card, TextInput, Label, Button } from 'flowbite-react'
+import React, { useEffect, useState } from 'react'
 import { BiSolidSquareRounded } from "react-icons/bi";
+import AxiosCliente from '../../config/htpp-gateway/http-client';
+import { SketchPicker, BlockPicker } from 'react-color';
+import { customAlert, confirmAlert } from '../../config/alert/alert';
+import { useFormik } from 'formik';
+import * as yup from 'yup'
+
 
 const SystemEdit = () => {
+    const [loading, setLoading] = useState(false);
+    const [colors, setColors] = useState([{ color1: '', color2: '', color3: '' }]);
+    const [logo, setLogo] = useState('');
+
+    const getColors = async () => {
+        try {
+            setLoading(true);
+            const response = await AxiosCliente({
+                url: "/sistema/",
+                method: "GET",
+            });
+            if (response.status === 'OK') {
+                console.log(response);
+                setColors(response.data);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getColors();
+        getLogo();
+        console.log("colores", colors);
+    }, []);
+    const color1 = colors[0].color1;
+    const color2 = colors[0].color2;
+    const color3 = colors[0].color3;
+
+    const handleColorChange = (color, name) => {
+        setColors(prevColors => ({
+            ...prevColors,
+            [0]: {
+                ...prevColors[0],
+                [name]: color.hex
+            }
+        }));
+    };
+
+    const formik = useFormik({
+        initialValues: {
+            id: 1,
+            logo: "",
+        },
+        onSubmit: async (values, { setSubmitting }) => {
+            confirmAlert(async () => {
+                try {
+                    //values -> person { user: {}}
+                    const payload = {
+                        ...values,
+                        logo: values.logo,
+                    }
+                    const response = await AxiosCliente({
+                        method: 'PUT',
+                        url: '/logo/',
+                        data: payload
+                    });
+                    if (!response.error) {
+                        customAlert("Éxito", "Logo actualizado correctamente", "success")
+                        getLogo();
+                    }
+                    return response;
+                } catch (error) {
+                    customAlert("Error", "Ocurrió un error al actualizar el usuario", "error")
+                } finally {
+                    setSubmitting(false)
+                }
+            })
+        }
+    });
+
+    const handleChangeAvatar = (event) => {
+        const files = event.target.files;
+        if (files.length > 0 && files.length < 4)
+            for (const file of files) {
+                const reader = new FileReader();
+                reader.onloadend = (data) => {
+                    console.log(data);
+                    formik.setFieldValue('avatar', data.target.result)
+                    formik.setFieldTouched('avatar', true)
+                }
+                reader.readAsDataURL(file);
+            }
+    }
+
+    const getLogo = async () => {
+        try {
+            setLoading(true);
+            const response = await AxiosCliente({
+                url: "/logo/",
+                method: "GET",
+            });
+            if (response.status === 'OK') {
+                console.log(response);
+                setLogo(response.data);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const updateColors = async () => {
+        try {
+            setLoading(true);
+            const payload = {
+                id: 1,
+                color1: colors[0].color1,
+                color2: colors[0].color2,
+                color3: colors[0].color3
+            }
+            console.log(payload);
+            const response = await AxiosCliente({
+                method: 'PUT',
+                url: '/sistema/',
+                data: payload
+            });
+            if (response.status === 'OK') {
+                console.log(response);
+                getColors();
+                customAlert("Éxito", "Colores actualizados correctamente", "success");
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    const handleAgregarClick = async () => {
+        await updateColors();
+    }
+
+    console.log("logo",logo);
+    const logoO = logo ? logo[0].logo : null;
 
     return (
-        <div className='flex w-full h-screen'>
-            <section className='flex flex-col gap-3 h-screen w-full items-center'>
+        <div className='flex justify-center grid'>
+            <section className='container'>
                 <div className='flex flex-col gap-3 py-3 h-screen  justify-content-center w-full'>
-                    <Card className='flex flex-col  justify-center items-center w-full justify-center' style={{ backgroundColor: '#D9D9D9' }}
-                        imgSrc='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY4LmAcV9_WdvlKaOSGCzpVKfnXI8BguKtY6bXrh6Nn8LGMcmKffgotUu9775u__N0-90&usqp=CAU'
+                    <div className='flex flex-col  justify-center items-center p-4 border rounded-md my-5 mx-6 pt-5 w-full' style={{ backgroundColor: '#D9D9D9' }}
                     >
+                        <Card
+                            className="max-w-sm"
+                            imgAlt="Meaningful alt text for an image that is not purely decorative"
+                            imgSrc={logoO ? (logoO):null}
+                        ></Card>
                         <div className='w-full flex'>
-                            <div className='w-full p-2'>
-                                <Label htmlFor='logo' className='font-bold' value='Logo' style={{fontSize:18}}/>
+                            <Label htmlFor='logo' className='font-bold' value='Logo' style={{ fontSize: 18 }} />
+                            <div className='flex gap-4 px-4 p-4 my-5 mx-6 pt-5 w-full'>
                                 <TextInput
                                     htmlFor='logo'
                                     name='logo'
                                     type='file'
                                     placeholder='******'
+                                    onChange={(e) => handleChangeAvatar(e)}
                                 />
+                                <Button onClick={formik.handleSubmit}>Actualizar Logo</Button>
                             </div>
                         </div>
-                        
-                        <div className='w-full flex'>
-                                <Label htmlFor='color' className='font-bold' value='Colores' style={{fontSize:18}}/>
-                            </div>
 
-                        <div className='w-full flex'>
-                            <div className=' flex w-full'>
-                                <div className=' flex w-full justify-between gap-4 px-4' style={{backgroundColor:'white'}}>
-                                    <input
-                                        htmlFor='password'
-                                        name='color'
-                                        type='color'
-                                        placeholder='A'
+                        <div className='w-full flex justify-center'>
+                            <div className=' grid justify-center '>
+                                <div>
+                                    <Label htmlFor='color' className='font-bold' value='Colores' style={{ fontSize: 18 }} />
+                                </div>
+                                <div className='flex gap-4 px-4 p-4 border rounded-md my-5 mx-6 pt-5 w-full justify-center' style={{ backgroundColor: 'white' }}>
+                                    <SketchPicker
+                                        name='color1'
+                                        color={colors[0].color1}
+                                        onChange={(color) => handleColorChange(color, 'color2')}
                                     />
-                                    <input
-                                        htmlFor='password'
-                                        name='password'
-                                        type='color'
-                                        placeholder='******'
+                                    <SketchPicker
+                                        name='color2'
+                                        color={colors[0].color2}
+                                        onChange={(color) => handleColorChange(color, 'color2')}
                                     />
-                                    <input
-                                        htmlFor='password'
-                                        name='password'
-                                        type='color'
-                                        placeholder='******'
+                                    <SketchPicker
+                                        name='color3'
+                                        color={colors[0].color3}
+                                        onChange={(color) => handleColorChange(color, 'color3')}
                                     />
-                                    <input
-                                        htmlFor='password'
-                                        name='password'
-                                        type='color'
-                                        placeholder='******'
-                                    />
+                                    <Card className='max-w-sm' style={{ background: color3 }}>
+                                        <h5 className="mb-4 text-xl font-medium" style={{ color: 'white' }}>Nueva paléta de colores</h5>
+                                        <div style={{ background: color1 }}>
+                                            a
+                                        </div>
+                                        <div style={{ background: color2 }}>
+                                            b
+                                        </div>
+                                    </Card>
                                 </div>
                             </div>
                         </div>
-                            <Button href='#'>Agregar</Button>
-                    </Card>
+                        <Button onClick={handleAgregarClick}>Actualizar Colores</Button>
+                    </div>
 
                 </div>
 
