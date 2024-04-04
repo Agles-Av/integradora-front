@@ -1,4 +1,4 @@
-import React, { useContext,useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Label, TextInput, Spinner } from 'flowbite-react';
 import { replace, useFormik } from 'formik';
 import * as yup from 'yup';
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function SignInPage(props) {
-  const {reload} = props;
+  const { reload } = props;
   const { user, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -36,17 +36,7 @@ function SignInPage(props) {
           dispatch({ type: "SIGNIN", payload: response.data });
           console.log(response.data.roles.name);
           localStorage.setItem('role', response.data.roles.name);
-          if (response.data.roles.name === 'ADMIN_ROLE') {
-            navigate("/homeAdmin", { replace: true });
-          }else if(response.data.roles.name === 'DOCENTE_ROLE'){
-            navigate("/homeDocente", { replace: true });
-            localStorage.setItem('idDocente', response.data.user.id);
-          }else if(response.data.roles.name === 'ESTUDIANTE_ROLE'){
-            navigate("/homeEstudiante", { replace: true });
-            console.log(response.data.user.id);
-            localStorage.setItem('idEstudiante', response.data.user.id);
-          }
-          reload(true);
+          navigate("/", { replace: true });
         } else throw Error('Error');
       } catch (error) {
         console.log(error);

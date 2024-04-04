@@ -103,8 +103,8 @@ const ClasesList = () => {
                         return clase.name.toLowerCase().includes(filterText.toLowerCase());
                     })
                     .map((clase, index) => {
-                        const usuarioId = clase.usuario.id.toString().toLowerCase();
-                        const docenteId = idDoc.toString().toLowerCase();
+                        const usuarioId = clase.usuario.id?.toString().toLowerCase();
+                        const docenteId = idDoc?.toString().toLowerCase();
                         if (usuarioId === docenteId) {
                             return (
                                 <Card key={index} className="mx-auto mb-5 p-4 flex-grow border w-64" style={{ backgroundColor: '#13505B'}}>
