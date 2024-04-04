@@ -7,8 +7,22 @@ import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { customAlert } from '../../config/alert/alert';
 import { FaSearch } from "react-icons/fa";
+import { getColorsFromServer } from '../../config/colors/colorService';
 
 function EstudianteHome() {
+  
+  const [colors, setColors] = useState([]);
+  
+  useEffect(() => {
+    const fetchColors = async () => {
+      const colorsData = await getColorsFromServer();
+      if (colorsData) {
+        setColors(colorsData);
+      }
+    };
+
+    fetchColors();
+  }, []);
   const navigate = useNavigate();
 
   const [examenHistory, setExamenHistory] = useState([]);
@@ -126,8 +140,8 @@ function EstudianteHome() {
       </div>
       <div className='flex w-full p-3 mt-4 '>
         <div className='flex flex-col w-full items-center mt-5'>
-          <Card className="flex mt-5 max-w-lg border border-green-500">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-green-700">
+          <Card className="flex mt-5 max-w-lg border " style={{ backgroundColor: '#D9D9D9', borderColor: colors[0] && colors[0].color2 }}>
+            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style={{ color: colors[0] && colors[0].color2 }}>
               Código de examen
             </h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">
@@ -148,7 +162,7 @@ function EstudianteHome() {
                   />
                 </div>
                 <div>
-                  <Button type="submit" disabled={formik.isSubmitting || !formik.isValid}>Acceder</Button>
+                  <Button type="submit" pill color='success' outline disabled={formik.isSubmitting || !formik.isValid}>Acceder</Button>
                 </div>
               </form>
             </div>

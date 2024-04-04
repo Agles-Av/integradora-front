@@ -33,26 +33,7 @@ function AppRouter() {
   useEffect(() => {
     setRole(localStorage.getItem('role'));
     console.log(role);
-    getColors();
   }, [reload]);
-  const getColors = async () => {
-    try {
-      setLoading(true);
-      const response = await AxiosCliente({
-        url: "/sistema/",
-        method: "GET",
-      });
-      if (response.status === 'OK') {
-        console.log(response);
-        setColorsAA(response.data);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-  console.log("colorAA", colorsAA);
 
   const paths = (role) => {
     switch (role) {

@@ -1,12 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Navbar, Button } from 'flowbite-react';
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { Outlet, useNavigate } from 'react-router-dom';
 import AuthContext from '../../config/context/auth-context';
 import { GoHomeFill } from "react-icons/go";
 import { confirmAlertLogOut } from '../../config/alert/alert';
+import { getColorsFromServer } from '../../config/colors/colorService';
 
 const AdminLayout = () => {
+    const [colors, setColors] = useState([]);
+  
+    useEffect(() => {
+      const fetchColors = async () => {
+        const colorsData = await getColorsFromServer();
+        if (colorsData) {
+          setColors(colorsData);
+        }
+      };
+  
+      fetchColors();
+    }, []);
+    
+    console.log("colors", colors);
     const { dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -21,11 +36,10 @@ const AdminLayout = () => {
             navigate('/');
         });
     };
-
     return (
         <>
             <header>
-                <Navbar fluid style={{ backgroundColor: '#0C7489' }}>
+                <Navbar fluid style={{ backgroundColor: colors[0] && colors[0].color2 }}>
                     <Navbar.Brand>
                         <FaUserCircle size={24} color='white' className='mr-2' />
                         <span className="self-center whitespace-nowrap text-xl font-semibold text-white">SIGEU - Administrador</span>

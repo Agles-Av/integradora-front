@@ -6,9 +6,23 @@ import { faPencil, faArrowRight, faTrash, faPlus } from '@fortawesome/free-solid
 import { Sidebar, Badge, Card, Button, TextInput } from "flowbite-react";
 import AxiosCliente from '../../../config/htpp-gateway/http-client';
 import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser, HiViewBoards } from "react-icons/hi";
+import { getColorsFromServer } from '../../../config/colors/colorService';
 
 
 const CalificacionesList = () => {
+    const [colors, setColors] = useState([]);
+  
+    useEffect(() => {
+      const fetchColors = async () => {
+        const colorsData = await getColorsFromServer();
+        if (colorsData) {
+          setColors(colorsData);
+        }
+      };
+  
+      fetchColors();
+    }, []);
+
     const navigate = useNavigate();
     const calificacion = 10;
     const location = useLocation();
@@ -82,7 +96,7 @@ const CalificacionesList = () => {
     return (
         <div className='flex'>
             <aside>
-                <h1 style={{ color: '#0C7489', fontSize: 24 }}>
+                <h1 style={{ color:colors[0] && colors[0].color2, fontSize: 24 }}>
                     Calificaciones
                 </h1>
                 {calificaciones
@@ -101,7 +115,7 @@ const CalificacionesList = () => {
                                     <div className="my-3 bg-gray-200 p-3 rounded">
                                         <p className="text-primary text-center mb-2">{cali.usuario.person.name} {cali.usuario.person.surname} {cali.usuario.person.lastname}</p>
                                     </div>
-                                    <div className="my-3 bg-primary text-gray-200 p-3 rounded" style={{ background: '#13505B', color: 'white' }}>
+                                    <div className="my-3 bg-primary text-gray-200 p-3 rounded" style={{ background: colors[0] && colors[0].color3, color: 'white' }}>
                                         <p className="text-center mb-0">Calificación :
                                             <input
                                                 type="number"
@@ -124,7 +138,7 @@ const CalificacionesList = () => {
             </aside>
 
             <main className="flex-1">
-                <h1 style={{ color: '#0C7489', fontSize: 24 }}>
+                <h1 style={{ color: colors[0] && colors[0].color2, fontSize: 24 }}>
                     Exámenes
                 </h1>
                 <div className='flex flex-wrap mt-4 mx-5 mr-3 p-4 border-b border-gray-700 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 h-full justify-evenly' style={{ backgroundColor: '#D9D9D9' }}>

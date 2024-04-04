@@ -9,8 +9,23 @@ import ModalUpdateClass from '../../../components/docente/ModalUpdateClass';
 import { useNavigate } from 'react-router-dom';
 import { HiX } from "react-icons/hi";
 import { MdAnnouncement } from "react-icons/md";
+import { getColorsFromServer } from '../../../config/colors/colorService';
 
 const ClasesList = () => {
+    const [colors, setColors] = useState([]);
+  
+    useEffect(() => {
+      const fetchColors = async () => {
+        const colorsData = await getColorsFromServer();
+        if (colorsData) {
+          setColors(colorsData);
+        }
+      };
+  
+      fetchColors();
+    }, []);
+    
+    console.log("colors", colors);
     const navigate = useNavigate();
     const [filterText, setFilterText] = useState("");
     const [idDoc, setIdDoc] = useState(localStorage.getItem('idDocente'));
@@ -74,13 +89,42 @@ const ClasesList = () => {
 
     return (
         <div>
-            <div className='flex justify-end'>
-                <Button pill outline color='success' onClick={() => setOpenCreate(true)}>
-                    <FontAwesomeIcon icon={faPlus} />
-                </Button>
-                <ModalCreateClass openModal={openCreate} setOpenModal={setOpenCreate} getClasses={getClases} />
-            </div>
+            <div className='my-5 mx-6 pt-5 p-4 rounded p-4 border-b dark:border-gray-600 dark:bg-gray-700 h-full justify-start flex w-full' style={{ backgroundColor: '#D9D9D9' }}>
+                <div className='flex w-fit'>
+                {clases
+                    .filter((clase) => {
+                        return clase.name.toLowerCase().includes(filterText.toLowerCase());
+                    })
+                    .map((clase, index) => {
+                        const usuarioId = clase.usuario.id?.toString().toLowerCase();
+                        const docenteId = idDoc?.toString().toLowerCase();
+                        if (usuarioId === docenteId) {
+                            return (
+                                <Card key={index} className="mb-5 p-4 flex-grow border w-64 my-5 mx-6 pt-5 " style={{ backgroundColor: colors[0] && colors[0].color3}}>
+                                    <div className='d-flex items-center justify-center h-20' style={{ backgroundColor: colors[0] && colors[0].color3, color: 'white', cursor: 'pointer'}} onClick={() => handleCardClick(clase)}>
+                                        <h1 style={{ fontSize: '24px' }} >{clase.name}</h1>
+                                    </div>
+                                    <div className='flex justify-between w-full'>
+                                        <Button pill outline color='warning' className="mx-2" onClick={() => goUpdate(clase)}>
+                                            <FontAwesomeIcon icon={faPencil}/>
+                                        </Button>
+                                        <Button pill outline color='failure' className="mx-2" onClick={() => deleteClases(clase.id)}>
+                                            <FontAwesomeIcon icon={faTrash}/>
+                                        </Button>
+                                    </div>
+                                    {openUpdate && <ModalUpdateClass data={classData} openModalUp={openUpdate} setOpenModalUp={setOpenUpdate} getClasses={getClases}/>}
+                                </Card>
 
+                            );
+                        } else {
+                            console.log("No eres el docente de esta clase");
+                        }
+                    })
+                }
+                </div>
+
+            </div>
+            
             <Banner>
                 <div className="flex w-full justify-between border-b border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700">
                     <div className="mx-auto flex items-center">
@@ -96,39 +140,12 @@ const ClasesList = () => {
                     </Banner.CollapseButton>
                 </div>
             </Banner>
-            <div className='flex flex-wrap mt-4 mx-5 mr-3 p-4 border-b border-gray-700 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 h-full justify-start' style={{ backgroundColor: '#D9D9D9' }}>
-
-                {clases
-                    .filter((clase) => {
-                        return clase.name.toLowerCase().includes(filterText.toLowerCase());
-                    })
-                    .map((clase, index) => {
-                        const usuarioId = clase.usuario.id?.toString().toLowerCase();
-                        const docenteId = idDoc?.toString().toLowerCase();
-                        if (usuarioId === docenteId) {
-                            return (
-                                <Card key={index} className="mx-auto mb-5 p-4 flex-grow border w-64" style={{ backgroundColor: '#13505B'}}>
-                                    <div className='d-flex align-items-center justify-content-center h-20' style={{ background: '#13505B', color: 'white', cursor: 'pointer'}} onClick={() => handleCardClick(clase)}>
-                                        <h1 style={{ fontSize: '24px' }} >{clase.name}</h1>
-                                    </div>
-                                    <div className='flex justify-between w-full'>
-                                        <Button pill outline color='light' className="mx-2" onClick={() => goUpdate(clase)}>
-                                            <FontAwesomeIcon icon={faPencil} style={{ color: '#13505B' }} />
-                                        </Button>
-                                        <Button pill outline color='light' className="mx-2" onClick={() => deleteClases(clase.id)}>
-                                            <FontAwesomeIcon icon={faTrash} style={{ color: '#13505B' }} />
-                                        </Button>
-                                    </div>
-                                    {openUpdate && <ModalUpdateClass data={classData} openModalUp={openUpdate} setOpenModalUp={setOpenUpdate} getClasses={getClases}/>}
-                                </Card>
-
-                            );
-                        } else {
-                            console.log("No eres el docente de esta clase");
-                        }
-                    })
-                }
-
+            
+            <div className='flex justify-end'>
+                <Button pill outline color='success' onClick={() => setOpenCreate(true)}>
+                    <FontAwesomeIcon icon={faPlus} />
+                </Button>
+                <ModalCreateClass openModal={openCreate} setOpenModal={setOpenCreate} getClasses={getClases} />
             </div>
         </div>
 

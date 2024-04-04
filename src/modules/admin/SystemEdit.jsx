@@ -162,7 +162,7 @@ const SystemEdit = () => {
                         ></Card>
                         <div className='w-full flex'>
                             <Label htmlFor='logo' className='font-bold' value='Logo' style={{ fontSize: 18 }} />
-                            <div className='flex gap-4 px-4 p-4 my-5 mx-6 pt-5 w-full'>
+                            <div className='flex gap-4 px-4 p-4 my-5 mx-6 pt-5 w-full items-center'>
                                 <TextInput
                                     htmlFor='logo'
                                     name='logo'
@@ -170,7 +170,10 @@ const SystemEdit = () => {
                                     placeholder='******'
                                     onChange={(e) => handleChangeAvatar(e)}
                                 />
-                                <Button onClick={formik.handleSubmit}>Actualizar Logo</Button>
+                                <div>
+                                <Button onClick={formik.handleSubmit} pill outline color='info'>Actualizar Logo</Button>
+
+                                </div>
                             </div>
                         </div>
 
@@ -183,7 +186,7 @@ const SystemEdit = () => {
                                     <SketchPicker
                                         name='color1'
                                         color={colors[0].color1}
-                                        onChange={(color) => handleColorChange(color, 'color2')}
+                                        onChange={(color) => handleColorChange(color, 'color1')}
                                     />
                                     <SketchPicker
                                         name='color2'
@@ -207,7 +210,7 @@ const SystemEdit = () => {
                                 </div>
                             </div>
                         </div>
-                        <Button onClick={handleAgregarClick}>Actualizar Colores</Button>
+                        <Button onClick={handleAgregarClick} pill outline color='info'>Actualizar Colores</Button>
                     </div>
 
                 </div>
