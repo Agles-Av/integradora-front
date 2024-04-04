@@ -5,8 +5,22 @@ import { RiCloseLine } from "react-icons/ri"; // Cambiado a RiCloseLine
 import { Label, Radio, Banner, Button } from 'flowbite-react';
 import AxiosCliente from '../../config/htpp-gateway/http-client';
 import { useNavigate } from 'react-router-dom';
+import { getColorsFromServer } from '../../config/colors/colorService';
 
 function EstudianteHistorialEx() {
+  
+  const [colors, setColors] = useState([]);
+  
+  useEffect(() => {
+    const fetchColors = async () => {
+      const colorsData = await getColorsFromServer();
+      if (colorsData) {
+        setColors(colorsData);
+      }
+    };
+
+    fetchColors();
+  }, []);
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = location.state;
@@ -86,17 +100,17 @@ function EstudianteHistorialEx() {
   return (
     <div className='flex justify-center grid'>
       <div className='container max-w-6xl'>
-        <div className="p-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#D9D9D9', borderColor: '#13505B' }}>
+        <div className="p-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#D9D9D9', borderColor: colors[0] && colors[0].color3 }}>
           <div className='grid grid-cols-2 gap-4 '>
-            <h1 style={{ color: '#0C7489', fontSize: 24 }}>{examen.title}</h1>
+            <h1 style={{ color: colors[0] && colors[0].color2, fontSize: 24 }}>{examen.title}</h1>
           </div>
           <div className='my-3 max-w-2xl'>
-            <h1 style={{ color: '#0C7489', fontSize: 20 }}>{examen.description}</h1>
+            <h1 style={{ color: colors[0] && colors[0].color2, fontSize: 20 }}>{examen.description}</h1>
           </div>
         </div>
       </div>
       <hr style={{ width: "52rem" }} />
-      <div className=' my-5 border rounded-md grid w-full' style={{ border: '1px solid #0C7489', background: '#D9D9D9' }}>
+      <div className=' my-5 border rounded-md grid w-full' style={{ border: colors[0] && colors[0].color2, background: '#D9D9D9' }}>
         <div className='m-3 p-4'>
           {preguntas.map((pregunta, index) => (
             <div key={index} className='m-3 p-4'>

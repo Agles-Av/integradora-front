@@ -9,7 +9,6 @@ import ModalCreate from '../../components/admin/ModalCreate';
 import ModalUpdate from '../../components/admin/ModalUpdate';
 import { customAlert, confirmAlert } from '../../config/alert/alert'
 
-
 const UsersList = () => {
     const [loading, setLoading] = useState(false);
     const [openModal, setOpenModal] = useState(false);

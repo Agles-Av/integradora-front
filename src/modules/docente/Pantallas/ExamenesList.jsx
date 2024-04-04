@@ -11,8 +11,21 @@ import { useNavigate } from 'react-router-dom';
 import { HiX } from "react-icons/hi";
 import { MdAnnouncement } from "react-icons/md";
 import { customAlert, confirmAlert } from '../../../config/alert/alert';
+import { getColorsFromServer } from '../../../config/colors/colorService';
 
 const ExamenesList = () => {
+    const [colors, setColors] = useState([]);
+  
+    useEffect(() => {
+      const fetchColors = async () => {
+        const colorsData = await getColorsFromServer();
+        if (colorsData) {
+          setColors(colorsData);
+        }
+      };
+  
+      fetchColors();
+    }, []);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [copiedText, setCopiedText] = useState(null);
@@ -137,9 +150,9 @@ const goCalificar = (examenId) => {
     return (
         <div className='flex justify-center'>
             <div className='container max-w-6xl'>
-                <div className="py-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#D9D9D9', borderColor: '#13505B' }}>
+                <div className="py-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#D9D9D9', borderColor: colors[0] && colors[0].color3 }}>
                     <div className="grid grid-cols-2 gap-4 ">
-                        <div className="flex justify-stretch items-end w-full h-36 pt-5 px-6 " style={{ color: "#13505B" }}>
+                        <div className="flex justify-stretch items-end w-full h-36 pt-5 px-6 " style={{ color: colors[0] && colors[0].color3 }}>
                             <h1 className="text-xl text-center" style={{ fontSize: '28px' }}>{data.name}</h1>
                         </div>
                     </div>
@@ -199,8 +212,8 @@ const goCalificar = (examenId) => {
 
 
                             const code = examen.examen.id === 4 ? (
-                                <Card className="py-4 h-20 flex justify-center tems-center" style={{ backgroundColor: '#119DA4' }}>
-                                    <div className="flex gap-4 items-center" onClick={() => copyToClipboard(examen.codigo)}>
+                                <Card className="py-4 h-20 flex justify-center tems-center" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
+                                    <div className="flex gap-4 items-center" onClick={() => copyToClipboard(examen.code)}>
                                         <FaRegCopy size={28} style={{ color: 'black', cursor: 'pointer'  }} />
                                         <p className="text-xl text-white">{examen.code}</p>
                                     </div>
@@ -246,7 +259,7 @@ const goCalificar = (examenId) => {
 
                             return (
                                 <div className='flex'>
-                                    <Card className="py-4 h-20 w-full" style={{ backgroundColor: '#119DA4' }}>
+                                    <Card className="py-4 h-20 w-full" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
                                         <div className="flex justify-between w-full">
                                             <div className="flex gap-4 items-center">
                                                 <HiMiniClipboardDocumentList size={28} />

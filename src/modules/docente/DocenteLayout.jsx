@@ -7,8 +7,23 @@ import { GoHomeFill } from "react-icons/go";
 import AxiosCliente from '../../config/htpp-gateway/http-client';
 import { confirmAlertLogOut } from '../../config/alert/alert';
 import ModalUpdate from '../../components/admin/ModalUpdate'
+import { getColorsFromServer } from '../../config/colors/colorService';
 
 const DocenteLayout = () => {
+    const [colors, setColors] = useState([]);
+  
+    useEffect(() => {
+      const fetchColors = async () => {
+        const colorsData = await getColorsFromServer();
+        if (colorsData) {
+          setColors(colorsData);
+        }
+      };
+  
+      fetchColors();
+    }, []);
+    
+    console.log("colors", colors);
     const [loading, setLoading] = useState(false);
     const { dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -60,7 +75,7 @@ const DocenteLayout = () => {
     return (
         <>
             <header>
-                <Navbar fluid style={{ backgroundColor: '#0C7489' }}>
+                <Navbar fluid style={{ backgroundColor: colors[0] && colors[0].color2 }}>
                     <Navbar.Brand>
                         <FaUserCircle size={24} color='white' className='mr-2' />
                         <span className="self-center whitespace-nowrap text-xl font-semibold text-white">SIGEU - Docente</span>

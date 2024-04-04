@@ -7,8 +7,21 @@ import * as yup from 'yup';
 import { FaRegCopy, FaSearch, FaPlus } from "react-icons/fa";
 import { customAlert, confirmAlert } from '../../config/alert/alert'
 import { useNavigate } from 'react-router-dom';
+import { getColorsFromServer } from '../../config/colors/colorService';
 
 const EditarExamen = () => {
+    const [colors, setColors] = useState([]);
+  
+    useEffect(() => {
+      const fetchColors = async () => {
+        const colorsData = await getColorsFromServer();
+        if (colorsData) {
+          setColors(colorsData);
+        }
+      };
+  
+      fetchColors();
+    }, []);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const location = useLocation();
@@ -295,9 +308,9 @@ const changeStatus = async () => {
         <div className='flex justify-center grid'>
             <form noValidate onSubmit={formik.handleSubmit} id='saveExam' name='saveExam'>
                 <div className='container max-w-6xl'>
-                    <div className="p-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#D9D9D9', borderColor: '#13505B' }}>
+                    <div className="p-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#D9D9D9', borderColor: colors[0] && colors[0].color3 }}>
                         <div className='grid grid-cols-2 gap-4 '>
-                            <Label variant="standard" label="Título del exámen" style={{ color: '#0C7489', fontSize: 24 }}
+                            <Label variant="standard" label="Título del exámen" style={{ color: colors[0] && colors[0].color2, fontSize: 24 }}
                                 onChange={handleExamTitleChange}
                                 name='title'
                                 value={examData.title}
@@ -308,7 +321,7 @@ const changeStatus = async () => {
                                 } />
                         </div>
                         <div className='my-3 max-w-2xl'>
-                            <Label variant="standard" label="Descripción del exámen" style={{ color: '#0C7489', fontSize: 20 }}
+                            <Label variant="standard" label="Descripción del exámen" style={{ color: colors[0] && colors[0].color2, fontSize: 20 }}
                                 onChange={handleDescriptionChange}
                                 name='description'
                                 value={examData.description}

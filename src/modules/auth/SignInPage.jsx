@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Label, TextInput, Spinner } from 'flowbite-react';
 import { replace, useFormik } from 'formik';
 import * as yup from 'yup';
@@ -6,8 +6,6 @@ import { customAlert } from '../../config/alert/alert';
 import { AxiosCliente } from '../../config/htpp-gateway/http-client';
 import AuthContext from '../../config/context/auth-context';
 import { useNavigate } from 'react-router-dom';
-
-
 
 function SignInPage(props) {
   const { reload } = props;
