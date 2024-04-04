@@ -37,56 +37,59 @@ function AppRouter() {
   }, [reload]);
   const getColors = async () => {
     try {
-        setLoading(true);
-        const response = await AxiosCliente({
-            url: "/sistema/",
-            method: "GET",
-        });
-        if (response.status === 'OK') {
-            console.log(response);
-            setColorsAA(response.data);
-        }
+      setLoading(true);
+      const response = await AxiosCliente({
+        url: "/sistema/",
+        method: "GET",
+      });
+      if (response.status === 'OK') {
+        console.log(response);
+        setColorsAA(response.data);
+      }
     } catch (error) {
-        console.log(error);
+      console.log(error);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-}
-console.log("colorAA", colorsAA);
+  }
+  console.log("colorAA", colorsAA);
+
+  const paths = (role) => {
+    switch (role) {
+      case "ADMIN_ROLE":
+        return (<Route path='/' element={<AdminLayout />}>
+          <Route path='system' element={<SystemEdit />} />
+          <Route path='/' element={<UsersList />} />
+          <Route path='users' element={<UsersList />} />
+          <Route path='homeAdmin' element={<UsersList />} />
+        </Route>);
+      case "DOCENTE_ROLE":
+        return (<Route path='/' element={<DocenteLayout />}>
+          <Route path='/' element={<ClasesList />} />
+          <Route path='homeDocente' element={<ClasesList />} />
+          <Route path='examenes' element={<ExamenesList />} />
+          <Route path='crearExamen' element={<CreacionExamen />} />
+          <Route path='editarExamen' element={<EditarExamen />} />
+          <Route path='calificaciones' element={<CalificacionesList />} />
+        </Route>);
+      case "ESTUDIANTE_ROLE":
+        return (<Route path='/' element={<EstudianteLayout />}>
+          <Route path='/' element={<EstudianteHome />} />
+          <Route path='homeEstudiante' element={<EstudianteHome />} />
+          <Route path='examen' element={<EstudianteExamen />} />
+          <Route path='historial' element={<EstudianteHistorialEx />} />
+        </Route>);
+      default:
+        return (<Route path='/' element={<SignInPage reload={setReload} />} />)
+    }
+  }
+
   const router = createBrowserRouter( // es el diagrama q me enseño const router crea el elemeto grande aun sin usarse 
     createRoutesFromElements( //hacer comparacion con aside
-      <>
+       <>
 
         {
-          //pubico, no tiene paths 
-        }
-        {
-          user.signed && role === "ADMIN_ROLE" ? ( //😱 😱? se llama banderas pq indican el como funciona un booleano cuando no se pone ningun signo 
-            <Route path='/' element={<AdminLayout />}>
-              <Route path='system' element={<SystemEdit />} />
-              <Route path='/' element={<UsersList />} />
-              <Route path='users' element={<UsersList />} />
-              <Route path='homeAdmin' element={<UsersList />} />
-            </Route>
-          ) : user.signed && role === "DOCENTE_ROLE" ? (
-            <Route path='/' element={<DocenteLayout />}>
-              <Route path='/' element={<ClasesList />} />
-              <Route path='homeDocente' element={<ClasesList />} />
-              <Route path='examenes' element={<ExamenesList />} />
-              <Route path='crearExamen' element={<CreacionExamen />} />
-              <Route path='editarExamen' element={<EditarExamen />} />
-              <Route path='calificaciones' element={<CalificacionesList />} />
-              <Route path='verexamen' element={<EstudianteHistorialEx />} />
-            </Route>
-          ) : user.signed && role === "ESTUDIANTE_ROLE" ? (
-            <Route path='/' element={<EstudianteLayout />}>
-              <Route path='/' element={<EstudianteHome />} />
-              <Route path='homeEstudiante' element={<EstudianteHome />} />
-              <Route path='examen' element={<EstudianteExamen />} />
-              <Route path='historial' element={<EstudianteHistorialEx />} />
-
-            </Route>
-          ) : <Route path='/' element={<SignInPage reload={setReload} />} />
+          user.signed ? paths(user.user.role.name) : <Route path='/' element={<SignInPage reload={setReload} />} />
         }
 
         <Route path='/*' element={<>Error 404</>} />
