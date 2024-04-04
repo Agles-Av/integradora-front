@@ -92,7 +92,7 @@ function AppRouter() {
           user.signed ? paths(user.user.role.name) : <Route path='/' element={<SignInPage reload={setReload} />} />
         }
 
-        <Route path='/*' element={<>Error 404</>} />
+        <Route path='/*' element={<>ErrorR 404</>} />
       </>
     )
 
