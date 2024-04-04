@@ -49,6 +49,7 @@ const SystemEdit = () => {
             }
         }));
     };
+    
 
     const formik = useFormik({
         initialValues: {
@@ -56,22 +57,23 @@ const SystemEdit = () => {
             logo: "",
         },
         onSubmit: async (values, { setSubmitting }) => {
+            const payload = {
+                id:values.id,
+                logo:values.logo
+            }
+            console.log("Este es el payload",payload);
             confirmAlert(async () => {
                 try {
                     //values -> person { user: {}}
-                    const payload = {
-                        ...values,
-                        logo: values.logo,
-                    }
                     const response = await AxiosCliente({
                         method: 'PUT',
                         url: '/logo/',
                         data: payload
                     });
-                    if (!response.error) {
+            
                         customAlert("Éxito", "Logo actualizado correctamente", "success")
                         getLogo();
-                    }
+              
                     return response;
                 } catch (error) {
                     customAlert("Error", "Ocurrió un error al actualizar el usuario", "error")
@@ -89,8 +91,8 @@ const SystemEdit = () => {
                 const reader = new FileReader();
                 reader.onloadend = (data) => {
                     console.log(data);
-                    formik.setFieldValue('avatar', data.target.result)
-                    formik.setFieldTouched('avatar', true)
+                    formik.setFieldValue('logo', data.target.result)
+                    formik.setFieldTouched('logo', true)
                 }
                 reader.readAsDataURL(file);
             }
