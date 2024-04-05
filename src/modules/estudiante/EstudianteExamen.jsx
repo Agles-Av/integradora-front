@@ -9,6 +9,7 @@ import { getColorsFromServer } from '../../config/colors/colorService';
 function EstudianteExamen() {
   
   const [colors, setColors] = useState([]);
+  const [preguntasMostradas, setPreguntasMostradas] = useState([]);
   
   useEffect(() => {
     const fetchColors = async () => {
@@ -28,17 +29,27 @@ function EstudianteExamen() {
   console.log(idEstudiante);
 
   const { dataDoExamen } = location.state;
-  const { preguntas } = dataDoExamen;
+  const { preguntas, numeroPreguntas } = dataDoExamen;
   const { code } = dataDoExamen;
 
   const [respuestas, setRespuestas] = useState([]);
   const [alreadyExist, setAlreadyExist] = useState([]);
   const [mostrar, setMostrar] = useState(false);
 
+  useEffect(() => {
+    const shuffleQuestions = (preguntas) => {
+      return preguntas.sort(() => Math.random() - 0.5);
+    };
+
+    const preguntasAleatorias = shuffleQuestions(preguntas);
+    const preguntasMostradas = preguntasAleatorias.slice(0, numeroPreguntas);
+    setPreguntasMostradas(preguntasMostradas);
+  }, []); // Ejecutar solo una vez al cargar el componente
+
 
   const handleChange = (preguntaId, respuestaId, esTexto = false, textoRespuesta = '') => {
     setRespuestas((prev) => {
-      const preguntaObj = preguntas.find(p => p.id === preguntaId);
+      const preguntaObj = preguntasMostradas.find(p => p.id === preguntaId);
       let respuestaObj = null;
       if (!esTexto) {
         respuestaObj = preguntaObj.respuestas.find(r => r.id === respuestaId);
@@ -64,11 +75,12 @@ function EstudianteExamen() {
   };
 
   const handleSubmit = async () => {
-    if (respuestas.length < preguntas.length) {
+    if (respuestas.length < preguntasMostradas.length) {
       customAlert("Error", "Debes responder todas las preguntas", "error");
       return;
     }
     confirmAlertExamen(async () => {
+      console.log("respuestas enviadas",respuestas);
       try {
         const response = await AxiosCliente({
           url: "/usuariorespuesta/",
@@ -78,6 +90,7 @@ function EstudianteExamen() {
           },
           data: respuestas
         })
+        console.log("response",response);
         cambiar();
       } catch (error) {
         console.log(error);
@@ -139,7 +152,7 @@ function EstudianteExamen() {
           <h1 className='text-lg font-bold' style={{color:colors[0] && colors[0].color2}}>{dataDoExamen.title}</h1>
           <h2 className='text-md mt-2' style={{ color: colors[0] && colors[0].color2 }}>{dataDoExamen.description}</h2>
         </div>
-        {preguntas.map((preguntaP, index) => (
+        {preguntasMostradas.map((preguntaP, index) => (
           <div key={index} className='flex flex-col rounded-md border my-4 max-w-md bg-gray-100 shadow-md w-full p-4' style={{ backgroundColor: '#D9D9D9', borderColor: colors[0] && colors[0].color3 }}>
             <h1 className='text-lg font-bold text-green-700 mb-4'>{preguntaP.name}</h1>
             <div>

@@ -52,11 +52,14 @@ function EstudianteHome() {
         })
         if (!response.error) {
           const dataDoExamen = response.data;
-          navigate("/examen", { state: { dataDoExamen } }, { state: { idEstudiante } });
+          if (dataDoExamen.examen.name === 'Activo') {
+            navigate("/examen", { state: { dataDoExamen } }, { state: { idEstudiante } });
+          }else{
+            customAlert("No se encontró el examen", "Verifica tu código e introducelo de nuevo", "error")
+          }
         } else throw Error('Error');
       } catch (error) {
         console.log(error);
-        customAlert("No se encontró el examen", "Verifica tu código e introducelo de nuevo", "error")
         formik.resetForm();
       } finally {
         setSubmitting(false);
