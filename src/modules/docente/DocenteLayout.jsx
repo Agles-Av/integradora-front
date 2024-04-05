@@ -85,13 +85,8 @@ const DocenteLayout = () => {
                     <Navbar.Collapse >
                         <Navbar.Link href="homeDocente" style={{ color: "white" }}>Clases</Navbar.Link>
                         <Navbar.Link onClick={() => goUpdate()} style={{ color: "white", cursor:'pointer'}}>Perfil</Navbar.Link>
-                        <Button
-                            color="failure"
-                            size="xs"
-                            onClick={handleLogout}
-                        >
-                            <FaSignOutAlt className="mr-2" />
-                            Cerrar Sesión </Button>
+                        <Navbar.Link color="failure" onClick={handleLogout} style={{ color: "white", cursor: 'pointer'}} className='flex items-center'> <FaSignOutAlt className='mr-2'/> Cerrar Sesión </Navbar.Link>
+
                     </Navbar.Collapse>
                 </Navbar>
             </header>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, FloatingLabel, TextInput, Radio, Textarea, Banner } from "flowbite-react";
+import { Button, FloatingLabel, TextInput, Radio, Textarea, Banner, Label } from "flowbite-react";
 import { useLocation } from 'react-router-dom';
 import { useFormik } from 'formik';
 import AxiosCliente from '../../config/htpp-gateway/http-client';
@@ -13,18 +13,18 @@ import { getColorsFromServer } from '../../config/colors/colorService';
 
 const CreacionExamen = () => {
     const [colors, setColors] = useState([]);
-  
+
     useEffect(() => {
-      const fetchColors = async () => {
-        const colorsData = await getColorsFromServer();
-        if (colorsData) {
-          setColors(colorsData);
-        }
-      };
-  
-      fetchColors();
+        const fetchColors = async () => {
+            const colorsData = await getColorsFromServer();
+            if (colorsData) {
+                setColors(colorsData);
+            }
+        };
+
+        fetchColors();
     }, []);
-    
+
     console.log("colors", colors);
 
     const location = useLocation();
@@ -40,7 +40,8 @@ const CreacionExamen = () => {
         examen: {
             id: 2
         },
-        preguntas: []
+        preguntas: [],
+        numero_preguntas: 0
     });
 
     const handleFinishClick = () => {
@@ -125,11 +126,15 @@ const CreacionExamen = () => {
             examen: {
                 id: 2
             },
-            preguntas: examData.preguntas
+            preguntas: examData.preguntas,
+            numero_preguntas: examData.numero_preguntas
         },
         validationSchema: yup.object().shape({
             title: yup.string().required("Campo obligatorio").max(50, "Solo se permiten hasta 50 caractéres").min(3, "Mínimo 3 caractéres"),
             description: yup.string().required("Campo obligatorio").max(150, "Solo se permiten hasta 50 caractéres").min(3, "Mínimo 3 caractéres"),
+            numero_preguntas: yup.number()
+                .max(examData.preguntas.length, `El número de preguntas no puede ser mayor que ${examData.preguntas.length}`)
+                .required('Campo obligatorio')
         }),
         onSubmit: async (values, { setSubmitting }) => {
             confirmAlert(async () => {
@@ -179,7 +184,8 @@ const CreacionExamen = () => {
             examen: {
                 id: examData.examen.id
             },
-            preguntas: examData.preguntas
+            preguntas: examData.preguntas,
+            numero_preguntas: examData.numero_preguntas
         });
     }, [examData]);
 
@@ -236,6 +242,23 @@ const CreacionExamen = () => {
                                         (<span className='text-sm text-red-600'>{formik.errors.description}</span>) : null
                                 } />
                         </div>
+                    </div>
+                    <div className='flex justify-start items-center'>
+                        <Label>¿Cuántas preguntas verá el estudiante en el exámen?</Label>
+                        <TextInput
+                            name='numero_preguntas'
+                            type='number'
+                            value={examData.numero_preguntas}
+                            onChange={(event) => setExamData(prevData => ({
+                                ...prevData,
+                                numero_preguntas: parseInt(event.target.value) // Convertir el valor a un número entero
+                            }))}
+                            onBlur={formik.handleBlur}
+                            helperText={
+                                formik.touched.numero_preguntas && formik.errors.numero_preguntas ?
+                                (<span className='text-sm text-red-600'>{formik.errors.numero_preguntas}</span>) : null
+                            }
+                        />
                     </div>
                 </div>
 

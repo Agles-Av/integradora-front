@@ -198,12 +198,12 @@ const SystemEdit = () => {
                                         color={colors[0].color3}
                                         onChange={(color) => handleColorChange(color, 'color3')}
                                     />
-                                    <Card className='max-w-sm' style={{ background: color3 }}>
+                                    <Card className='max-w-sm' style={{ background: color2 }}>
                                         <h5 className="mb-4 text-xl font-medium" style={{ color: 'white' }}>Nueva paléta de colores</h5>
                                         <div style={{ background: color1 }}>
                                             a
                                         </div>
-                                        <div style={{ background: color2 }}>
+                                        <div style={{ background: color3 }}>
                                             b
                                         </div>
                                     </Card>

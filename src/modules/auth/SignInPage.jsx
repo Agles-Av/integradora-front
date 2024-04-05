@@ -34,6 +34,8 @@ function SignInPage(props) {
           dispatch({ type: "SIGNIN", payload: response.data });
           console.log(response.data.roles.name);
           localStorage.setItem('role', response.data.roles.name);
+          localStorage.setItem('idEstudiante', response.data.user.id);
+          console.log(response.data.user.id);
           navigate("/", { replace: true });
         } else throw Error('Error');
       } catch (error) {
