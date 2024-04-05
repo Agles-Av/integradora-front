@@ -52,6 +52,7 @@ function AppRouter() {
           <Route path='crearExamen' element={<CreacionExamen />} />
           <Route path='editarExamen' element={<EditarExamen />} />
           <Route path='calificaciones' element={<CalificacionesList />} />
+          <Route path='verexamen' element={<EstudianteHistorialEx />} />
         </Route>);
       case "ESTUDIANTE_ROLE":
         return (<Route path='/' element={<EstudianteLayout />}>

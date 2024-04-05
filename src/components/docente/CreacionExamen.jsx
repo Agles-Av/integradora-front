@@ -41,13 +41,14 @@ const CreacionExamen = () => {
             id: 2
         },
         preguntas: [],
-        numero_preguntas: 0
+        numeroPreguntas: 0
     });
 
     const handleFinishClick = () => {
         // Actualizar el id del examen a 3 pa decir que se terminó
         setExamData(prevData => ({
             ...prevData,
+            numeroPreguntas: prevData.preguntas.length,
             examen: {
                 id: 3
             }
@@ -127,16 +128,17 @@ const CreacionExamen = () => {
                 id: 2
             },
             preguntas: examData.preguntas,
-            numero_preguntas: examData.numero_preguntas
+            numeroPreguntas: examData.numeroPreguntas
         },
         validationSchema: yup.object().shape({
             title: yup.string().required("Campo obligatorio").max(50, "Solo se permiten hasta 50 caractéres").min(3, "Mínimo 3 caractéres"),
             description: yup.string().required("Campo obligatorio").max(150, "Solo se permiten hasta 50 caractéres").min(3, "Mínimo 3 caractéres"),
-            numero_preguntas: yup.number()
+            numeroPreguntas: yup.number()
                 .max(examData.preguntas.length, `El número de preguntas no puede ser mayor que ${examData.preguntas.length}`)
                 .required('Campo obligatorio')
         }),
         onSubmit: async (values, { setSubmitting }) => {
+            console.log(values);
             confirmAlert(async () => {
                 try {
                     const payload = {
@@ -152,7 +154,8 @@ const CreacionExamen = () => {
                             name: question.name,
                             tipo: question.tipo,
                             respuestas: question.respuestas
-                        }))
+                        })),
+                        numeroPreguntas: values.numeroPreguntas
                     };
                     console.log("payload", payload);
                     const response = await AxiosCliente({
@@ -160,7 +163,7 @@ const CreacionExamen = () => {
                         url: '/examen/',
                         data: payload
                     });
-                    console.log(response);
+                    console.log("nuevo examen",response);
                     if (response.status === 'OK') {
                         customAlert("Éxito", "Examen creado correctamente", "success")
                         navigate(-1);
@@ -185,7 +188,7 @@ const CreacionExamen = () => {
                 id: examData.examen.id
             },
             preguntas: examData.preguntas,
-            numero_preguntas: examData.numero_preguntas
+            numeroPreguntas: examData.numeroPreguntas
         });
     }, [examData]);
 
@@ -215,6 +218,14 @@ const CreacionExamen = () => {
         }));
     };
 
+    const handlerNumeroChange = event => {
+        formik.handleChange(event);
+        setExamData(prevData => ({
+            ...prevData,
+            numeroPreguntas: event.target.value
+        }));
+    }
+
     return (
         <div className='flex justify-center grid'>
             <form noValidate onSubmit={formik.handleSubmit} id='saveExam' name='saveExam'>
@@ -242,23 +253,6 @@ const CreacionExamen = () => {
                                         (<span className='text-sm text-red-600'>{formik.errors.description}</span>) : null
                                 } />
                         </div>
-                    </div>
-                    <div className='flex justify-start items-center'>
-                        <Label>¿Cuántas preguntas verá el estudiante en el exámen?</Label>
-                        <TextInput
-                            name='numero_preguntas'
-                            type='number'
-                            value={examData.numero_preguntas}
-                            onChange={(event) => setExamData(prevData => ({
-                                ...prevData,
-                                numero_preguntas: parseInt(event.target.value) // Convertir el valor a un número entero
-                            }))}
-                            onBlur={formik.handleBlur}
-                            helperText={
-                                formik.touched.numero_preguntas && formik.errors.numero_preguntas ?
-                                (<span className='text-sm text-red-600'>{formik.errors.numero_preguntas}</span>) : null
-                            }
-                        />
                     </div>
                 </div>
 
@@ -320,6 +314,21 @@ const CreacionExamen = () => {
                         <Button pill outline color='info' onClick={() => addQuestion('open')}>Agregar pregunta abierta</Button>
                     </div>
                 </div>
+                
+                <div className='flex justify-start items-center m-3 p-4'>
+                        <Label>¿Cuántas preguntas verá el estudiante en el exámen?</Label>
+                        <TextInput
+                            name='numeroPreguntas'
+                            type='number'
+                            value={examData.numeroPreguntas}
+                            onChange={handlerNumeroChange}
+                            onBlur={formik.handleBlur}
+                            helperText={
+                                formik.touched.numeroPreguntas && formik.errors.numeroPreguntas ?
+                                (<span className='text-sm text-red-600'>{formik.errors.numeroPreguntas}</span>) : null
+                            }
+                        />
+                    </div>
                 <div className='flex justify-end m-3 p-4'>
                     <Button pill outline color='warning' form='saveExam' type="submit" disabled={formik.isSubmitting || !formik.isValid}> Guardar y Salir</Button>
                     <Button pill outline color='info' onClick={handleFinishClick} type="submit" form='saveExam' disabled={formik.isSubmitting || !formik.isValid}>Terminar</Button>
