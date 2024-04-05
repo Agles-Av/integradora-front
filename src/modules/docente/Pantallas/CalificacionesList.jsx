@@ -63,6 +63,9 @@ const CalificacionesList = () => {
     const userD = true;
 
     const updateCalificacion = async (cali, newCali) => {
+        if (newCali == 1) {
+            return;
+        }
         try {
             const response = await AxiosCliente({
                 url: `/usuarioexamen/`,
@@ -91,6 +94,52 @@ const CalificacionesList = () => {
             }
         } catch (error) {
             console.log(error);
+        }
+        try {
+            const response = await AxiosCliente({
+                url: `/email/send-email`,
+                method: "POST",
+                data: {
+                    destinatario: cali.usuario.email,
+                    asunto:"Calificación de examen",
+                    examen:{
+                        calificacion: newCali,
+                        examen:{
+                            id:cali.examen.id,
+                            title:cali.examen.title,
+                            description:cali.examen.description,
+                            clase:{
+                                id:cali.examen.clase.id,
+                                name:cali.examen.clase.name,
+                                usuario:{
+                                    id:cali.examen.clase.usuario.id,
+                                    person:{
+                                        id:cali.examen.clase.usuario.person.id,
+                                        name:cali.examen.clase.usuario.person.name,
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+            });
+            console.log("data email",response);
+            console.log("response email",response);
+            if (response.status === 'OK') {
+                // Actualizar el estado calificaciones después de la solicitud PUT
+                setCalificaciones(prevCalificaciones => {
+                    const updatedCalificaciones = prevCalificaciones.map(item => {
+                        if (item.id === cali.id) {
+                            return { ...item, calificacion: newCali };
+                        }
+                        return item;
+                    });
+                    return updatedCalificaciones;
+                });
+                getCalificaciones();
+            }
+        } catch (error) {
+            
         }
      }
     return (

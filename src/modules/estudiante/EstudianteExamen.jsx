@@ -25,6 +25,7 @@ function EstudianteExamen() {
   const location = useLocation();
 
   const idEstudiante = localStorage.getItem('idEstudiante');
+  console.log(idEstudiante);
 
   const { dataDoExamen } = location.state;
   const { preguntas } = dataDoExamen;

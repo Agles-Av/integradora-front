@@ -49,13 +49,8 @@ const AdminLayout = () => {
                     <Navbar.Collapse >
                         <Navbar.Link href="/users" style={{ color: "white" }}>Usuarios</Navbar.Link>
                         <Navbar.Link href="/system" style={{ color: "white" }}>Sistema</Navbar.Link>
-                        <Button
-                            color="failure"
-                            size="xs"
-                            onClick={handleLogout}
-                        >
-                            <FaSignOutAlt className="mr-2" />
-                            Cerrar Sesión </Button>
+                        <Navbar.Link color="failure" onClick={handleLogout} style={{ color: "white", cursor: 'pointer'}} className='flex items-center'> <FaSignOutAlt className='mr-2'/> Cerrar Sesión </Navbar.Link>
+
                     </Navbar.Collapse>
                 </Navbar>
             </header>

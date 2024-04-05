@@ -153,7 +153,7 @@ const goCalificar = (examenId) => {
                 <div className="py-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#D9D9D9', borderColor: colors[0] && colors[0].color3 }}>
                     <div className="grid grid-cols-2 gap-4 ">
                         <div className="flex justify-stretch items-end w-full h-36 pt-5 px-6 " style={{ color: colors[0] && colors[0].color3 }}>
-                            <h1 className="text-xl text-center" style={{ fontSize: '28px' }}>{data.name}</h1>
+                            <h1 className="text-xl text-center" style={{ fontSize: '58px' }}>{data.name}</h1>
                         </div>
                     </div>
                 </div>

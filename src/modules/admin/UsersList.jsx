@@ -54,6 +54,14 @@ const UsersList = () => {
             selector: (row, index) => row.person.matricula,
         },
         {
+            name: "Estado",
+            cell: (row) => <Badge color={row.status ? 'success' : 'failure'}>
+                {row.status ? 'Activo' : 'Inactivo'}
+            </Badge>,
+            selector: () => row.status,
+            sortable: true,
+        },
+        {
             name: "CURP",
             cell: (row, index) => <>{row.person.curp}</>,
             sortable: true,
@@ -66,7 +74,7 @@ const UsersList = () => {
                     <Button outline size={'sm'} pill color='warning' onClick={() => goUpdate(row)}>
                         {<AiFillEdit />}
                     </Button>
-                    <Button outline size={'sm'} pill color={row.status ? 'failure' : 'success'} onClick={() => deleteUsers(row.id)}>
+                    <Button outline size={'sm'} pill color={row.status ? 'failure' : 'success'} onClick={() => changeStatus(row.id)}>
                         {row.status ? <AiFillDelete /> : <AiOutlineDoubleLeft />}
                     </Button>
                 </>
@@ -80,17 +88,17 @@ const UsersList = () => {
         setUserData(data);
     }
 
-    const deleteUsers = (id) => {
+    const changeStatus = (id) => {
         confirmAlert(async () => {
             console.log(id);
             try {
                 const response = await AxiosCliente({
-                    method: 'DELETE',
-                    url: '/usuario/deleteUser/' + id
+                    method: 'PATCH',
+                    url: '/usuario/changeStatus/' + id
                 });
                 console.log("Respuesta del servidor:", response);
                 if (response.status === 'OK') {
-                    customAlert("Éxito", "Usuario eliminado", "success")
+                    customAlert("Éxito", "Estado cambiado", "success")
                     getUsers();
                 }
                 return response;
