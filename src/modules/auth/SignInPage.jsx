@@ -24,8 +24,6 @@ function SignInPage(props) {
       setLogo(storedLogo);
     }
   }, []);
-  console.log("colores guardados",colors);
-  console.log("logo guardado",logo);
 
   const formik = useFormik({
     initialValues: {
@@ -38,7 +36,6 @@ function SignInPage(props) {
     }),
     onSubmit: async (values, { setSubmitting }) => {
 
-      console.log(values);
       try {
         const response = await AxiosCliente({
           url: '/auth/signin',

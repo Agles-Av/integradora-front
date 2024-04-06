@@ -35,8 +35,8 @@ function EstudianteLayout() {
 
     fetchColors();
   }, []);
-  console.log(colorsData);
-  console.log(logoData);
+  console.log(colors);
+  console.log(logo);
 
   const { dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
