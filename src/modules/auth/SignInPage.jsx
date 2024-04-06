@@ -12,6 +12,21 @@ function SignInPage(props) {
   const { user, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const [colors, setColors] = useState([]);
+  const [logo, setLogo] = useState([]);
+  useEffect(() => {
+    const storedColors = JSON.parse(localStorage.getItem('colors'));
+    const storedLogo = JSON.parse(localStorage.getItem('logo'));
+    if (storedColors) {
+      setColors(storedColors);
+    }
+    if (storedLogo) {
+      setLogo(storedLogo);
+    }
+  }, []);
+  console.log("colores guardados",colors);
+  console.log("logo guardado",logo);
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -50,7 +65,7 @@ function SignInPage(props) {
   return (
     <div className="h-screen flex items-center justify-center animate-gradient">
       <div className="flex flex-col md:flex-row w-full max-w-6xl md:rounded-l-lg shadow animate-slide-up drop-shadow-md" >
-        <div className="md:w-1/2 p-6 md:rounded-l-lg " style={{ backgroundColor: "#119DA4" }}>
+        <div className="md:w-1/2 p-6 md:rounded-l-lg " style={{ backgroundColor: colors.length>0 ? colors[0].color1: "#119DA4" }}>
           <form className="p-8 w-full  lg:w-full  " noValidate
             onSubmit={formik.handleSubmit}
           >
@@ -66,7 +81,7 @@ function SignInPage(props) {
                   </span>) : null
                 }
                 className="border-b border-black focus:outline-none text-white"
-                style={{ backgroundColor: "#119DA4", borderColor: "#119DA4" }}
+                style={{ backgroundColor:  colors.length>0 ? colors[0].color1: "#119DA4", borderColor:  colors.length>0 ? colors[0].color1: "#119DA4" }}
               />
             </div>
             <div className="mb-4">
@@ -81,7 +96,7 @@ function SignInPage(props) {
                   </span>) : null
                 }
                 className="border-b border-black focus:outline-none text-white"
-                style={{ backgroundColor: "#119DA4", borderColor: "#119DA4" }}
+                style={{ backgroundColor: colors.length>0 ? colors[0].color1:"#119DA4", borderColor:  colors.length>0 ? colors[0].color1: "#119DA4" }}
               />
             </div>
             <Button className='font-sans rounded-lg shadow' type="submit"
@@ -93,10 +108,10 @@ function SignInPage(props) {
             </Button>
           </form>
         </div>
-        <div className="md:w-1/2 p-6 md:rounded-r-lg" style={{ backgroundColor: "#0C7489" }}>
+        <div className="md:w-1/2 p-6 md:rounded-r-lg" style={{ backgroundColor: colors.length>0 ? colors[0].color2:  "#0C7489" }}>
           <div className="flex flex-col items-center justify-center">
             <div className='jump-infinite'>
-            <img src="../../img/loginLogo.jpeg" alt="" className="rounded-full  mb-4" />
+            <img src={logo.length>0 ? (logo[0].logo):"../../img/loginLogo.jpeg"} alt="" className="rounded-full  mb-4" />
             </div>
             <h1 className="text-2xl text-white font-sans">SIGEU</h1>
             <h2 className="text-white font-sans">SISTEMA GESTOR DE EXAMENES UNIVERSITARIOS</h2>

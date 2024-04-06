@@ -7,23 +7,31 @@ import { GoHomeFill } from "react-icons/go";
 import AxiosCliente from '../../config/htpp-gateway/http-client';
 import { confirmAlertLogOut } from '../../config/alert/alert';
 import ModalUpdate from '../../components/admin/ModalUpdate'
-import { getColorsFromServer } from '../../config/colors/colorService';
+import { getColorsFromServer, getLogoFromServer } from '../../config/colors/colorService';
 
 const DocenteLayout = () => {
     const [colors, setColors] = useState([]);
+    const [logo, setLogo] = useState([]);
   
     useEffect(() => {
       const fetchColors = async () => {
         const colorsData = await getColorsFromServer();
+        const logoData = await getLogoFromServer();
         if (colorsData) {
-          setColors(colorsData);
-        }
+            setColors(colorsData);
+            localStorage.setItem('colors', JSON.stringify(colorsData));
+          }
+          if (logoData) {
+            setLogo(logoData);
+            localStorage.setItem('logo', JSON.stringify(logoData));
+          }
       };
   
       fetchColors();
     }, []);
-    
-    console.log("colors", colors);
+    console.log("colores guardados",colors);
+    console.log("logo guardado",logo);
+
     const [loading, setLoading] = useState(false);
     const { dispatch } = useContext(AuthContext);
     const navigate = useNavigate();

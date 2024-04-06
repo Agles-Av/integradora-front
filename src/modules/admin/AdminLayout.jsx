@@ -5,23 +5,31 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import AuthContext from '../../config/context/auth-context';
 import { GoHomeFill } from "react-icons/go";
 import { confirmAlertLogOut } from '../../config/alert/alert';
-import { getColorsFromServer } from '../../config/colors/colorService';
+import { getColorsFromServer, getLogoFromServer } from '../../config/colors/colorService';
 
 const AdminLayout = () => {
     const [colors, setColors] = useState([]);
+    const [logo, setLogo] = useState([]);
   
     useEffect(() => {
       const fetchColors = async () => {
         const colorsData = await getColorsFromServer();
+        const logoData = await getLogoFromServer();
         if (colorsData) {
-          setColors(colorsData);
-        }
+            setColors(colorsData);
+            localStorage.setItem('colors', JSON.stringify(colorsData));
+          }
+          if (logoData) {
+            setLogo(logoData);
+            localStorage.setItem('logo', JSON.stringify(logoData));
+          }
       };
   
       fetchColors();
     }, []);
-    
-    console.log("colors", colors);
+    console.log("colores guardados",colors);
+    console.log("logo guardado",logo);
+
     const { dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
 
