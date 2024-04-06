@@ -53,6 +53,7 @@ const ModalCreateClass = ({ openModal, setOpenModal, getClasses }) => {
             })
         }
     })
+    console.log("victrolog",idDoc);
   return (
     <div><Modal show={openModal} size={'md'} onClose={() => setOpenModal(false)}>
     <Modal.Header>Registrar Clase</Modal.Header>

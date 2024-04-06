@@ -47,6 +47,7 @@ function SignInPage(props) {
           console.log(response.data.roles.name);
           localStorage.setItem('role', response.data.roles.name);
           localStorage.setItem('idEstudiante', response.data.user.id);
+          localStorage.setItem('idDocente', response.data.user.id);
           console.log(response.data.user.id);
           navigate("/", { replace: true });
         } else throw Error('Error');
