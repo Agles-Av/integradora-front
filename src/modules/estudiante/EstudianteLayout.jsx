@@ -5,28 +5,39 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import AuthContext from '../../config/context/auth-context';
 import { GoHomeFill } from "react-icons/go";
 import { confirmAlertLogOut } from '../../config/alert/alert';
-import { getColorsFromServer } from '../../config/colors/colorService';
+import { getColorsFromServer, getLogoFromServer } from '../../config/colors/colorService';
 import ModalUpdate from '../../components/admin/ModalUpdate';
 import AxiosCliente from '../../config/htpp-gateway/http-client';
 
 function EstudianteLayout() {
   const [loading, setLoading] = useState(false);
-  const [colors, setColors] = useState([]);
   const [users, setUsers] = useState([]);
   const [userData, setUserData] = useState([]);
   const [openModalUp, setOpenModalUp] = useState(false);
   const [idDoc, setIdDoc] = useState(localStorage.getItem('idEstudiante'));
 
+  const [colors, setColors] = useState([]);
+  const [logo, setLogo] = useState([]);
+
   useEffect(() => {
     const fetchColors = async () => {
       const colorsData = await getColorsFromServer();
+      const logoData = await getLogoFromServer();
       if (colorsData) {
         setColors(colorsData);
+        localStorage.setItem('colors', JSON.stringify(colorsData));
+      }
+      if (logoData) {
+        setLogo(logoData);
+        localStorage.setItem('logo', JSON.stringify(logoData));
       }
     };
 
     fetchColors();
   }, []);
+  console.log(colorsData);
+  console.log(logoData);
+
   const { dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 

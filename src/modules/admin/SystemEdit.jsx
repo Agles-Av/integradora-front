@@ -17,7 +17,7 @@ const SystemEdit = () => {
         try {
             setLoading(true);
             const response = await AxiosCliente({
-                url: "/sistema/",
+                url: "/publico/sistema/",
                 method: "GET",
             });
             if (response.status === 'OK') {
@@ -67,7 +67,7 @@ const SystemEdit = () => {
                     //values -> person { user: {}}
                     const response = await AxiosCliente({
                         method: 'PUT',
-                        url: '/logo/',
+                        url: '/publico/logo/',
                         data: payload
                     });
             
@@ -102,7 +102,7 @@ const SystemEdit = () => {
         try {
             setLoading(true);
             const response = await AxiosCliente({
-                url: "/logo/",
+                url: "/publico/logo/",
                 method: "GET",
             });
             if (response.status === 'OK') {
@@ -128,7 +128,7 @@ const SystemEdit = () => {
             console.log(payload);
             const response = await AxiosCliente({
                 method: 'PUT',
-                url: '/sistema/',
+                url: '/publico/sistema/',
                 data: payload
             });
             if (response.status === 'OK') {

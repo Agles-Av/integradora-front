@@ -44,7 +44,8 @@ const EditarExamen = () => {
         examen: {
             id: examenId
         },
-        preguntas: []
+        preguntas: [],
+        numeroPreguntas: examData.numeroPreguntas
     });
     console.log("examen", examData);
 
@@ -186,7 +187,8 @@ const changeStatus = async () => {
             code:examData.code,
             examen: {
                 id: 3,
-            }
+            },
+            numeroPreguntas: examData.numeroPreguntas
         };
         console.log("payload", payload);
         const response = await AxiosCliente({
