@@ -48,8 +48,8 @@ function SignInPage(props) {
   });
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <div className="flex flex-col md:flex-row w-full max-w-6xl md:rounded-l-lg shadow" >
+    <div className="h-screen flex items-center justify-center animate-gradient">
+      <div className="flex flex-col md:flex-row w-full max-w-6xl md:rounded-l-lg shadow animate-slide-up drop-shadow-md" >
         <div className="md:w-1/2 p-6 md:rounded-l-lg " style={{ backgroundColor: "#119DA4" }}>
           <form className="p-8 w-full  lg:w-full  " noValidate
             onSubmit={formik.handleSubmit}
@@ -95,7 +95,9 @@ function SignInPage(props) {
         </div>
         <div className="md:w-1/2 p-6 md:rounded-r-lg" style={{ backgroundColor: "#0C7489" }}>
           <div className="flex flex-col items-center justify-center">
+            <div className='jump-infinite'>
             <img src="../../img/loginLogo.jpeg" alt="" className="rounded-full  mb-4" />
+            </div>
             <h1 className="text-2xl text-white font-sans">SIGEU</h1>
             <h2 className="text-white font-sans">SISTEMA GESTOR DE EXAMENES UNIVERSITARIOS</h2>
           </div>

@@ -2,9 +2,11 @@
 import { useEffect, useReducer } from 'react';
 import './output.css';
 import 'animate.css';
+import '../custom-styles.css'
 import { authManager } from './config/context/auth-manager';
 import AuthContext from './config/context/auth-context';
 import AppRouter from './router/AppRouter';
+
  
 const init = () => JSON.parse( //al cargar la app buscara un sesion y si no la encuentra es falsa
   //localStorega es una varibla global en la cual hace referencai de un apartado del navegador para guardar datos => String 
