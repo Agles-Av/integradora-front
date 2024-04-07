@@ -148,12 +148,12 @@ function EstudianteExamen() {
       }}
     >
       <div className='flex flex-col items-center'>
-        <div className='flex flex-col border rounded-md my-4 max-w-md bg-gray-100 shadow w-full p-4' style={{ backgroundColor: '#D9D9D9', borderColor: colors[0] && colors[0].color3 }}>
+        <div className='flex flex-col border rounded-md my-4 max-w-md bg-gray-100 shadow w-full p-4' style={{ backgroundColor: '#DfDfDf', borderColor: colors[0] && colors[0].color3 }}>
           <h1 className='text-lg font-bold' style={{color:colors[0] && colors[0].color2}}>{dataDoExamen.title}</h1>
           <h2 className='text-md mt-2' style={{ color: colors[0] && colors[0].color2 }}>{dataDoExamen.description}</h2>
         </div>
         {preguntasMostradas.map((preguntaP, index) => (
-          <div key={index} className='flex flex-col rounded-md border my-4 max-w-md bg-gray-100 shadow-md w-full p-4' style={{ backgroundColor: '#D9D9D9', borderColor: colors[0] && colors[0].color3 }}>
+          <div key={index} className='flex flex-col rounded-md border my-4 max-w-md bg-gray-100 shadow-md w-full p-4' style={{ backgroundColor: '#DfDfDf', borderColor: colors[0] && colors[0].color3 }}>
             <h1 className='text-lg font-bold text-green-700 mb-4'>{preguntaP.name}</h1>
             <div>
               {preguntaP.tipo ? (

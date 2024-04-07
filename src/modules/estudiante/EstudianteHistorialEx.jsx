@@ -100,7 +100,7 @@ function EstudianteHistorialEx() {
   return (
     <div className='flex justify-center grid'>
       <div className='container max-w-6xl'>
-        <div className="p-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#D9D9D9', borderColor: colors[0] && colors[0].color3 }}>
+        <div className="p-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#DfDfDf', borderColor: colors[0] && colors[0].color3 }}>
           <div className='grid grid-cols-2 gap-4 '>
             <h1 style={{ color: colors[0] && colors[0].color2, fontSize: 24 }}>{examen.title}</h1>
           </div>
@@ -110,7 +110,7 @@ function EstudianteHistorialEx() {
         </div>
       </div>
       <hr style={{ width: "52rem" }} />
-      <div className=' my-5 border rounded-md grid w-full' style={{ border: colors[0] && colors[0].color2, background: '#D9D9D9' }}>
+      <div className=' my-5 border rounded-md grid w-full' style={{ border: colors[0] && colors[0].color2, background: '#DfDfDf' }}>
         <div className='m-3 p-4'>
           {preguntas.map((pregunta, index) => (
             <div key={index} className='m-3 p-4'>

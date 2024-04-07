@@ -10,7 +10,7 @@ function AdminHome() {
           <p className='text-2xl' style={{ color: '#0C7489' }}>¿Qué vas a gestionar hoy?</p>
       </div>
       <section className="flex flex-col p-8 ">
-        <div className='flex border-b border-gray-700 bg-gray-50 dark:border-gray-600 dark:bg-gray-700' style={{ backgroundColor: '#D9D9D9' }}>
+        <div className='flex border-b border-gray-700 bg-gray-50 dark:border-gray-600 dark:bg-gray-700' style={{ backgroundColor: '#DfDfDf' }}>
           <div className="mx-auto flex items-center">
 
             <div className='p-6'>

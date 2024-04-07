@@ -153,7 +153,7 @@ const SystemEdit = () => {
         <div className='flex justify-center grid'>
             <section className='container'>
                 <div className='flex flex-col gap-3 py-3 h-screen  justify-content-center w-full'>
-                    <div className='flex flex-col  justify-center items-center p-4 border rounded-md my-5 mx-6 pt-5 w-full' style={{ backgroundColor: '#D9D9D9' }}
+                    <div className='flex flex-col  justify-center items-center p-4 border rounded-md my-5 mx-6 pt-5 w-full' style={{ backgroundColor: '#DfDfDf' }}
                     >
                         <Card
                             className="max-w-sm"

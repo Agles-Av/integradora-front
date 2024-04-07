@@ -230,7 +230,7 @@ const CreacionExamen = () => {
         <div className='flex justify-center grid'>
             <form noValidate onSubmit={formik.handleSubmit} id='saveExam' name='saveExam'>
                 <div className='container max-w-6xl'>
-                    <div className="p-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#D9D9D9', borderColor: colors[0] && colors[0].color1 }}>
+                    <div className="p-4 border rounded-md my-5 mx-6 pt-5 w-full" style={{ backgroundColor: '#DfDfDf', borderColor: colors[0] && colors[0].color1 }}>
                         <div className='grid grid-cols-2 gap-4 '>
                             <FloatingLabel variant="standard" label="Título del exámen" style={{ color: colors[0] && colors[0].color2, fontSize: 24 }}
                                 onChange={handleExamTitleChange}
@@ -275,7 +275,7 @@ const CreacionExamen = () => {
                 </div>
 
 
-                <div className='justify-center my-5 border rounded-md grid' style={{ border: '1px solid #0C7489', background: '#D9D9D9' }}>
+                <div className='justify-center my-5 border rounded-md grid' style={{ border: '1px solid #0C7489', background: '#DfDfDf' }}>
                     <div className='m-3 p-4'>
 
                         {examData.preguntas.map((question, index) => (

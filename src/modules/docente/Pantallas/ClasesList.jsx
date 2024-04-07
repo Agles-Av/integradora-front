@@ -89,7 +89,7 @@ const ClasesList = () => {
 
     return (
         <div>
-            <div className='my-5 mx-6 pt-5 p-4 rounded p-4 border-b dark:border-gray-600 dark:bg-gray-700 h-full justify-start flex w-full' style={{ backgroundColor: '#D9D9D9' }}>
+            <div className='my-5 mx-6 pt-5 p-4 rounded p-4 border-b dark:border-gray-600 dark:bg-gray-700 h-full justify-start flex w-full' style={{ backgroundColor: '#DfDfDf' }}>
                 <div className='flex w-fit'>
                 {clases
                     .filter((clase) => {
