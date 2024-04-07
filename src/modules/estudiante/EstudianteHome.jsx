@@ -167,7 +167,7 @@ function EstudianteHome() {
             </div>
             {/* ... Contenido del Historial ... */}
             <div className='w-full'>
-              {examenHistory
+              {examenHistory.length > 0 ? examenHistory
                 .filter((item) => item.examen.title.toLowerCase().includes(filterText.toLowerCase()))
                 .map((item, index) => (
                   <Card className="mt-4  mr-3  p-4 flex w-full h-64 border border-green-500 animate-slide-up" onClick={() => handleCardClick(item, userDocente)} style={{ cursor: 'pointer', borderColor: colors[0] && colors[0].color2 }}>
@@ -191,7 +191,11 @@ function EstudianteHome() {
 
                     </p>
                   </Card>
-                ))}
+                )) :(
+                  <div className='flex justify-center items-center w-full h-64'>
+                    <h1 className='text-2xl font-bold text-gray-900 dark:text-white'>No hay examenes realizados</h1>
+                  </div>
+                )}
             </div>
           </div>
         </div>
