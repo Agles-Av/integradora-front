@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Card, Badge, Banner } from 'flowbite-react';
+import { Button, Card, Badge, Banner, Accordion } from 'flowbite-react';
 import { faPencil, faArrowRight, faPaperPlane, faBriefcaseClock, faLocationArrow, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { HiMiniClipboardDocumentList } from "react-icons/hi2";
 import { FaRegCopy, FaSearch, FaPlus } from "react-icons/fa";
@@ -15,16 +15,16 @@ import { getColorsFromServer } from '../../../config/colors/colorService';
 
 const ExamenesList = () => {
     const [colors, setColors] = useState([]);
-  
+
     useEffect(() => {
-      const fetchColors = async () => {
-        const colorsData = await getColorsFromServer();
-        if (colorsData) {
-          setColors(colorsData);
-        }
-      };
-  
-      fetchColors();
+        const fetchColors = async () => {
+            const colorsData = await getColorsFromServer();
+            if (colorsData) {
+                setColors(colorsData);
+            }
+        };
+
+        fetchColors();
     }, []);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -48,53 +48,6 @@ const ExamenesList = () => {
     const location = useLocation();
     const { data } = location.state;
 
-    const dataExamenPrueba = [
-        {
-            title: "ReactJs U1",
-            description: "MAndar datos en forma de props a otro componente",
-            clase: {
-                id: 1
-            },
-            examen: {
-                id: 1
-            },
-            codigo: "POIU",
-        },
-        {
-            title: "ReactJs U2",
-            description: "MAndar datos en forma de props a otro componente",
-            clase: {
-                id: 1
-            },
-            examen: {
-                id: 2
-            },
-            codigo: "KSJS",
-        },
-        {
-            title: "ReactJs U3",
-            description: "MAndar datos en forma de props a otro componente",
-            clase: {
-                id: 1
-            },
-            examen: {
-                id: 3
-            },
-            codigo: "ABVC",
-        },
-        {
-            title: "Física U1",
-            description: "MAndar datos en forma de props a otro componente",
-            clase: {
-                id: 1
-            },
-            examen: {
-                id: 4
-            },
-            codigo: "SHGF",
-        },
-    ]
-
     const getExams = async () => {
         try {
             setLoading(true);
@@ -115,37 +68,37 @@ const ExamenesList = () => {
     useEffect(() => {
         getExams();
     }, []);
-    
+
     const handleCardClick = (dataClass) => {
         navigate("/crearExamen", { state: { dataClass } });
-      }
+    }
 
-      const irAEditar = (examenId) =>{
+    const irAEditar = (examenId) => {
         navigate("/editarExamen", { state: { examenId } });
-      }
+    }
 
-      
 
-const changeStatus = async (examData,statusData) => {
-    try {
-        const response = await AxiosCliente({
-            method: 'PUT',
-            url: `/estadoE/changeStatus/${examData}/${statusData}`,
-        });
-        if (response.status === 'OK') {
-            customAlert("Éxito", "Estado cambiado", "success");
+
+    const changeStatus = async (examData, statusData) => {
+        try {
+            const response = await AxiosCliente({
+                method: 'PUT',
+                url: `/estadoE/changeStatus/${examData}/${statusData}`,
+            });
+            if (response.status === 'OK') {
+                customAlert("Éxito", "Estado cambiado", "success");
+                getExams();
+            }
+            return response;
+        } catch (error) {
+            console.log(error);
+            customAlert("Error", "Ocurrió un error al activar el exámen", "error")
             getExams();
         }
-        return response;
-    } catch (error) {
-        console.log(error);
-        customAlert("Error", "Ocurrió un error al activar el exámen", "error")
-        getExams();
-    }
-};
-const goCalificar = (examenId) => {
-    navigate("/calificaciones", { state: { examenId } });
-};
+    };
+    const goCalificar = (examenId) => {
+        navigate("/calificaciones", { state: { examenId } });
+    };
 
     return (
         <div className='flex justify-center'>
@@ -157,127 +110,449 @@ const goCalificar = (examenId) => {
                         </div>
                     </div>
                 </div>
-                    <div className='flex justify-end py-2'>
-                        <Button pill outline color='success' onClick={() => handleCardClick(data)}> <FaPlus /> </Button>
-                    </div>
-                    <div>
-                        
-            <Banner>
-                <div className="flex w-full justify-between border-b border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700">
-                    <div className="mx-auto flex items-center">
-                        <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
-                            <MdAnnouncement className="mr-4 h-4 w-4" />
-                            <span className="[&_p]:inline">
-                                Puede seleccionar un examen para editarlo o ver los resultados según sea su estado. Presione el botón "+" para crear un nuevo examen.
-                            </span>
-                        </p>
-                    </div>
-                    <Banner.CollapseButton color="gray" className="border-0 bg-transparent text-gray-500 dark:text-gray-400">
-                        <HiX className="h-4 w-4" />
-                    </Banner.CollapseButton>
+                <div className='flex justify-end py-2'>
+                    <Button pill outline color='success' onClick={() => handleCardClick(data)}> <FaPlus /> </Button>
                 </div>
-            </Banner>
-                    </div>
+                <div>
 
-                {examenes
-                    .filter((examen) => {
-                        return examen.title.toLowerCase().includes(filterText.toLowerCase());
-                    })
-                    .map((examen, index) => {
-                        console.log(examen);
-                        const claseId = examen.clase.id.toString().toLowerCase();
-                        const esta = data.id.toString().toLowerCase();
-                        if (claseId === esta) {
-                            const badge = examen.examen.id === 1 ? (
-                                <div className="flex justify-around gap-2 items-center">
-                                    <Badge className="bg-blue-600 text-blue-600 rounded-full">&nbsp;</Badge>
-                                    <p className="text-lg text-white">Listo para verificar</p>
-                                </div>
-                            ) : examen.examen.id === 2 ? (
-                                <div className="flex justify-around gap-2 items-center">
-                                    <Badge className="bg-yellow-400 rounded-full">&nbsp;</Badge>
-                                    <p className="text-lg text-white">Pendiente</p>
-                                </div>
-                            ) : examen.examen.id === 3 ? (
-                                <div className="flex justify-around gap-2 items-center">
-                                    <Badge className="bg-red-600 text-red-600 rounded-full">&nbsp;</Badge>
-                                    <p className="text-lg text-white">No publicado</p>
-                                </div>
-                            ) : examen.examen.id === 4 ? (
-                                <div className="flex justify-around gap-2 items-center">
-                                    <Badge className="bg-green-600 rounded-full">&nbsp;</Badge>
-                                    <p className="text-lg text-white">Activo</p>
-                                </div>
-                            ) : null;
+                    <Banner>
+                        <div className="flex w-full justify-between border-b border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700">
+                            <div className="mx-auto flex items-center">
+                                <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+                                    <MdAnnouncement className="mr-4 h-4 w-4" />
+                                    <span className="[&_p]:inline">
+                                        Puede seleccionar un examen para editarlo o ver los resultados según sea su estado. Presione el botón "+" para crear un nuevo examen.
+                                    </span>
+                                </p>
+                            </div>
+                            <Banner.CollapseButton color="gray" className="border-0 bg-transparent text-gray-500 dark:text-gray-400">
+                                <HiX className="h-4 w-4" />
+                            </Banner.CollapseButton>
+                        </div>
+                    </Banner>
+                </div>
+                
+                <Accordion>
+                    <Accordion.Panel>
+                        <Accordion.Title>Examenes Activos</Accordion.Title>
+                        <Accordion.Content>
 
-
-                            const code = examen.examen.id === 4 ? (
-                                <Card className="py-4 h-20 flex justify-center tems-center" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
-                                    <div className="flex gap-4 items-center" onClick={() => copyToClipboard(examen.code)}>
-                                        <FaRegCopy size={28} style={{ color: 'black', cursor: 'pointer'  }} />
-                                        <p className="text-xl text-white">{examen.code}</p>
-                                    </div>
-                                </Card>
-                            ) : null;
-
-                            const options = examen.examen.id === 1 ? (
-                                <div className="flex justify-around items-center">
-                                    <Button pill outline color='light' className="mr-2">
-                                        <FontAwesomeIcon icon={faUsers} onClick={() => goCalificar(examen.id)} className="text-3xl text-blue-600" />
-                                    </Button>
-                                    <div className="flex justify-around items-center">
-                                <Button pill outline color='light' className="mr-2">
-                                    {/*Activar Examen*/}
-                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id,4)} className="text-3xl text-blue-600" />
-                                </Button>
-                                </div>
-                                </div>
-                            ): examen.examen.id === 2 ? (
-                                <div className="flex justify-around items-center">
-                                    <Button pill outline color='light' className="mr-2">
-                                        <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
-                                    </Button>
-                                </div>
-                            ): examen.examen.id === 3 ? (
-                                <div className="flex justify-around items-center">
-                                <Button pill outline color='light' className="mr-2">
-                                    {/*Activar Examen*/}
-                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id,4)} className="text-3xl text-blue-600" />
-                                </Button>
-                                    <Button pill outline color='light' className="mr-2">
-                                        <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
-                                    </Button>
-                                </div>
-                            ): examen.examen.id === 4 ? (
-                                <div className="flex justify-around items-center">
-                                <Button pill outline color='light' className="mr-2">
-                                    {/*Desactivar Examen*/}
-                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id,1)} className="text-3xl text-blue-600" />
-                                </Button>
-                                </div>
-                            ): null;
-
-                            return (
-                                <div className='flex'>
-                                    <Card className="py-4 h-20 w-full" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
-                                        <div className="flex justify-between w-full">
-                                            <div className="flex gap-4 items-center">
-                                                <HiMiniClipboardDocumentList size={28} />
-                                                <p className="text-xl text-white">{examen.title}</p>
+                            {examenes.filter(examen => examen.examen.id === 4)
+                                .filter((examen) => {
+                                    return examen.title.toLowerCase().includes(filterText.toLowerCase());
+                                })
+                                .map((examen, index) => {
+                                    console.log(examen);
+                                    const claseId = examen.clase.id.toString().toLowerCase();
+                                    const esta = data.id.toString().toLowerCase();
+                                    if (claseId === esta) {
+                                        const badge = examen.examen.id === 1 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-blue-600 text-blue-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Listo para verificar</p>
                                             </div>
-                                            {badge}
-                                            {options}
-                                        </div>
-                                    </Card>
-                                    {code}
-                                </div>
+                                        ) : examen.examen.id === 2 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-yellow-400 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Pendiente</p>
+                                            </div>
+                                        ) : examen.examen.id === 3 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-red-600 text-red-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">No publicado</p>
+                                            </div>
+                                        ) : examen.examen.id === 4 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-green-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Activo</p>
+                                            </div>
+                                        ) : null;
 
-                            );
-                        } else {
-                            console.log("No es de esta clase");
-                        }
-                    })
-                }
+
+                                        const code = examen.examen.id === 4 ? (
+                                            <Card className="py-4 h-20 flex justify-center tems-center" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
+                                                <div className="flex gap-4 items-center" onClick={() => copyToClipboard(examen.code)}>
+                                                    <FaRegCopy size={28} style={{ color: 'black', cursor: 'pointer' }} />
+                                                    <p className="text-xl text-white">{examen.code}</p>
+                                                </div>
+                                            </Card>
+                                        ) : null;
+
+                                        const options = examen.examen.id === 1 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faUsers} onClick={() => goCalificar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                                <div className="flex justify-around items-center">
+                                                    <Button pill outline color='light' className="mr-2">
+                                                        {/*Activar Examen*/}
+                                                        <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 4)} className="text-3xl text-blue-600" />
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        ) : examen.examen.id === 2 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : examen.examen.id === 3 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    {/*Activar Examen*/}
+                                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 4)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : examen.examen.id === 4 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    {/*Desactivar Examen*/}
+                                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 1)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : null;
+
+                                        return (
+                                            <div className='flex'>
+                                                <Card className="py-4 h-20 w-full" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
+                                                    <div className="flex justify-between w-full">
+                                                        <div className="flex gap-4 items-center">
+                                                            <HiMiniClipboardDocumentList size={28} />
+                                                            <p className="text-xl text-white">{examen.title}</p>
+                                                        </div>
+                                                        {badge}
+                                                        {options}
+                                                    </div>
+                                                </Card>
+                                                {code}
+                                            </div>
+
+                                        );
+                                    } else {
+                                        console.log("No es de esta clase");
+                                    }
+                                })
+                            }
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title>Exámenes listos para publicar</Accordion.Title>
+                        <Accordion.Content>
+
+                            {examenes.filter(examen => examen.examen.id === 3)
+                                .filter((examen) => {
+                                    return examen.title.toLowerCase().includes(filterText.toLowerCase());
+                                })
+                                .map((examen, index) => {
+                                    console.log(examen);
+                                    const claseId = examen.clase.id.toString().toLowerCase();
+                                    const esta = data.id.toString().toLowerCase();
+                                    if (claseId === esta) {
+                                        const badge = examen.examen.id === 1 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-blue-600 text-blue-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Listo para verificar</p>
+                                            </div>
+                                        ) : examen.examen.id === 2 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-yellow-400 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Pendiente</p>
+                                            </div>
+                                        ) : examen.examen.id === 3 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-red-600 text-red-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">No publicado</p>
+                                            </div>
+                                        ) : examen.examen.id === 4 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-green-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Activo</p>
+                                            </div>
+                                        ) : null;
+
+
+                                        const code = examen.examen.id === 4 ? (
+                                            <Card className="py-4 h-20 flex justify-center tems-center" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
+                                                <div className="flex gap-4 items-center" onClick={() => copyToClipboard(examen.code)}>
+                                                    <FaRegCopy size={28} style={{ color: 'black', cursor: 'pointer' }} />
+                                                    <p className="text-xl text-white">{examen.code}</p>
+                                                </div>
+                                            </Card>
+                                        ) : null;
+
+                                        const options = examen.examen.id === 1 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faUsers} onClick={() => goCalificar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                                <div className="flex justify-around items-center">
+                                                    <Button pill outline color='light' className="mr-2">
+                                                        {/*Activar Examen*/}
+                                                        <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 4)} className="text-3xl text-blue-600" />
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        ) : examen.examen.id === 2 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : examen.examen.id === 3 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    {/*Activar Examen*/}
+                                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 4)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : examen.examen.id === 4 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    {/*Desactivar Examen*/}
+                                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 1)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : null;
+
+                                        return (
+                                            <div className='flex'>
+                                                <Card className="py-4 h-20 w-full" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
+                                                    <div className="flex justify-between w-full">
+                                                        <div className="flex gap-4 items-center">
+                                                            <HiMiniClipboardDocumentList size={28} />
+                                                            <p className="text-xl text-white">{examen.title}</p>
+                                                        </div>
+                                                        {badge}
+                                                        {options}
+                                                    </div>
+                                                </Card>
+                                                {code}
+                                            </div>
+
+                                        );
+                                    } else {
+                                        console.log("No es de esta clase");
+                                    }
+                                })
+                            }
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title>Examenes pendientes de terminar</Accordion.Title>
+                        <Accordion.Content>
+                            {examenes.filter(examen => examen.examen.id === 2)
+                                .filter((examen) => {
+                                    return examen.title.toLowerCase().includes(filterText.toLowerCase());
+                                })
+                                .map((examen, index) => {
+                                    console.log(examen);
+                                    const claseId = examen.clase.id.toString().toLowerCase();
+                                    const esta = data.id.toString().toLowerCase();
+                                    if (claseId === esta) {
+                                        const badge = examen.examen.id === 1 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-blue-600 text-blue-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Listo para verificar</p>
+                                            </div>
+                                        ) : examen.examen.id === 2 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-yellow-400 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Pendiente</p>
+                                            </div>
+                                        ) : examen.examen.id === 3 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-red-600 text-red-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">No publicado</p>
+                                            </div>
+                                        ) : examen.examen.id === 4 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-green-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Activo</p>
+                                            </div>
+                                        ) : null;
+
+
+                                        const code = examen.examen.id === 4 ? (
+                                            <Card className="py-4 h-20 flex justify-center tems-center" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
+                                                <div className="flex gap-4 items-center" onClick={() => copyToClipboard(examen.code)}>
+                                                    <FaRegCopy size={28} style={{ color: 'black', cursor: 'pointer' }} />
+                                                    <p className="text-xl text-white">{examen.code}</p>
+                                                </div>
+                                            </Card>
+                                        ) : null;
+
+                                        const options = examen.examen.id === 1 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faUsers} onClick={() => goCalificar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                                <div className="flex justify-around items-center">
+                                                    <Button pill outline color='light' className="mr-2">
+                                                        {/*Activar Examen*/}
+                                                        <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 4)} className="text-3xl text-blue-600" />
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        ) : examen.examen.id === 2 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : examen.examen.id === 3 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    {/*Activar Examen*/}
+                                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 4)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : examen.examen.id === 4 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    {/*Desactivar Examen*/}
+                                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 1)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : null;
+
+                                        return (
+                                            <div className='flex'>
+                                                <Card className="py-4 h-20 w-full" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
+                                                    <div className="flex justify-between w-full">
+                                                        <div className="flex gap-4 items-center">
+                                                            <HiMiniClipboardDocumentList size={28} />
+                                                            <p className="text-xl text-white">{examen.title}</p>
+                                                        </div>
+                                                        {badge}
+                                                        {options}
+                                                    </div>
+                                                </Card>
+                                                {code}
+                                            </div>
+
+                                        );
+                                    } else {
+                                        console.log("No es de esta clase");
+                                    }
+                                })
+                            }
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title>Examenes Realizados</Accordion.Title>
+                        <Accordion.Content>
+
+                            {examenes.filter(examen => examen.examen.id === 1)
+                                .filter((examen) => {
+                                    return examen.title.toLowerCase().includes(filterText.toLowerCase());
+                                })
+                                .map((examen, index) => {
+                                    console.log(examen);
+                                    const claseId = examen.clase.id.toString().toLowerCase();
+                                    const esta = data.id.toString().toLowerCase();
+                                    if (claseId === esta) {
+                                        const badge = examen.examen.id === 1 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-blue-600 text-blue-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Listo para verificar</p>
+                                            </div>
+                                        ) : examen.examen.id === 2 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-yellow-400 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Pendiente</p>
+                                            </div>
+                                        ) : examen.examen.id === 3 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-red-600 text-red-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">No publicado</p>
+                                            </div>
+                                        ) : examen.examen.id === 4 ? (
+                                            <div className="flex justify-around gap-2 items-center">
+                                                <Badge className="bg-green-600 rounded-full">&nbsp;</Badge>
+                                                <p className="text-lg text-white">Activo</p>
+                                            </div>
+                                        ) : null;
+
+
+                                        const code = examen.examen.id === 4 ? (
+                                            <Card className="py-4 h-20 flex justify-center tems-center" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
+                                                <div className="flex gap-4 items-center" onClick={() => copyToClipboard(examen.code)}>
+                                                    <FaRegCopy size={28} style={{ color: 'black', cursor: 'pointer' }} />
+                                                    <p className="text-xl text-white">{examen.code}</p>
+                                                </div>
+                                            </Card>
+                                        ) : null;
+
+                                        const options = examen.examen.id === 1 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faUsers} onClick={() => goCalificar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                                <div className="flex justify-around items-center">
+                                                    <Button pill outline color='light' className="mr-2">
+                                                        {/*Activar Examen*/}
+                                                        <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 4)} className="text-3xl text-blue-600" />
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        ) : examen.examen.id === 2 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : examen.examen.id === 3 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    {/*Activar Examen*/}
+                                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 4)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                                <Button pill outline color='light' className="mr-2">
+                                                    <FontAwesomeIcon icon={faPencil} onClick={() => irAEditar(examen.id)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : examen.examen.id === 4 ? (
+                                            <div className="flex justify-around items-center">
+                                                <Button pill outline color='light' className="mr-2">
+                                                    {/*Desactivar Examen*/}
+                                                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => changeStatus(examen.id, 1)} className="text-3xl text-blue-600" />
+                                                </Button>
+                                            </div>
+                                        ) : null;
+
+                                        return (
+                                            <div className='flex'>
+                                                <Card className="py-4 h-20 w-full" style={{ backgroundColor: colors[0] && colors[0].color1 }}>
+                                                    <div className="flex justify-between w-full">
+                                                        <div className="flex gap-4 items-center">
+                                                            <HiMiniClipboardDocumentList size={28} />
+                                                            <p className="text-xl text-white">{examen.title}</p>
+                                                        </div>
+                                                        {badge}
+                                                        {options}
+                                                    </div>
+                                                </Card>
+                                                {code}
+                                            </div>
+
+                                        );
+                                    } else {
+                                        console.log("No es de esta clase");
+                                    }
+                                })
+                            }
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                </Accordion>
             </div>
 
         </div>
