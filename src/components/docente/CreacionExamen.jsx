@@ -134,7 +134,7 @@ const CreacionExamen = () => {
             title: yup.string().required("Campo obligatorio").max(50, "Solo se permiten hasta 50 caractéres").min(3, "Mínimo 3 caractéres"),
             description: yup.string().required("Campo obligatorio").max(150, "Solo se permiten hasta 50 caractéres").min(3, "Mínimo 3 caractéres"),
             numeroPreguntas: yup.number()
-                .max(examData.preguntas.length, `El número de preguntas no puede ser mayor que ${examData.preguntas.length}`)
+                .max(examData.preguntas.length, `El número de preguntas no puede ser mayor que ${examData.preguntas.length}`).min(1, 'Debe haber al menos una pregunta')
                 .required('Campo obligatorio')
         }),
         onSubmit: async (values, { setSubmitting }) => {
