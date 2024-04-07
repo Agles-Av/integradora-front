@@ -21,7 +21,7 @@ import CreacionExamen from '../components/docente/CreacionExamen';
 import EditarExamen from '../components/docente/EditarExamen';
 import CalificacionesList from '../modules/docente/Pantallas/CalificacionesList';
 import AxiosCliente from '../config/htpp-gateway/http-client';
-
+import Page404 from '../components/Page404';
 
 function AppRouter() {
   const [role, setRole] = useState(localStorage.getItem('role'));
@@ -74,7 +74,7 @@ function AppRouter() {
           user.signed ? paths(user.user.role.name) : <Route path='/' element={<SignInPage reload={setReload} />} />
         }
 
-        <Route path='/*' element={<>Error 404</>} />
+        <Route path='/*' element={<Page404/>} />
       </>
     )
 
