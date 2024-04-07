@@ -196,7 +196,7 @@ const changeStatus = async () => {
             url: `/examen/${examenId}`,
             data: payload
         });
-        console.log(response);
+        console.log("terminado",response);
         if (response.status === 'OK') {
             customAlert("Éxito", "Examen terminado correctamente", "success")
             navigate(-1);
@@ -226,7 +226,8 @@ const changeStatus = async () => {
                             id: response.data.examen.id
                         },
                         code:response.data.code,
-                        preguntas: response.data.preguntas
+                        preguntas: response.data.preguntas,
+                        numeroPreguntas: response.data.numeroPreguntas
                     });
                 }
             } catch (error) {
@@ -248,7 +249,8 @@ const changeStatus = async () => {
             examen: {
                 id: examData.examen.id
             },
-            preguntas: examData.preguntas
+            preguntas: examData.preguntas,
+            numeroPreguntas: examData.numeroPreguntas
         },
         onSubmit: async (values, { setSubmitting }) => {
             confirmAlert(async () => {

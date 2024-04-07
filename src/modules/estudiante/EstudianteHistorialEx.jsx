@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { getColorsFromServer } from '../../config/colors/colorService';
 
 function EstudianteHistorialEx() {
-  
+
   const [colors, setColors] = useState([]);
-  
+
   useEffect(() => {
     const fetchColors = async () => {
       const colorsData = await getColorsFromServer();
@@ -72,12 +72,12 @@ function EstudianteHistorialEx() {
   console.log("respuestas", respuestas);
 
 
-  const changeValue = async(respuesta) => { 
+  const changeValue = async (respuesta) => {
     console.log("Cambiando estado");
     try {
       const response = await AxiosCliente({
         method: 'PUT',
-        url: '/usuariorespuesta/correcta/'+respuesta.id,
+        url: '/usuariorespuesta/correcta/' + respuesta.id,
       });
       console.log(response);
 
@@ -93,7 +93,7 @@ function EstudianteHistorialEx() {
     }
   }
   const back = () => {
-        navigate(-1);
+    navigate(-1);
   }
 
 
@@ -112,41 +112,52 @@ function EstudianteHistorialEx() {
       <hr style={{ width: "52rem" }} />
       <div className=' my-5 border rounded-md grid w-full' style={{ border: colors[0] && colors[0].color2, background: '#DfDfDf' }}>
         <div className='m-3 p-4'>
-          {preguntas.map((pregunta, index) => (
-            <div key={index} className='m-3 p-4'>
-              <div className='bg-white rounded-lg p-3 m-3 p-4'>
-                <h1 className='text-lg font-bold text-green-700'>{pregunta.name}</h1>
-                {respuestas.map((respuesta, idx) => {
-                  const botones = user ? (
-                    respuesta.correcta ? (<div className='flex justify-end' key={idx}>
-                    <Button pill outline color='light' className="mr-2"><FaCheck color='green' onClick={() => changeValue(respuesta)} /></Button>
-                  </div>):(<div className='flex justify-end' key={idx}>
-                      <Button pill outline color='light' className="mr-2"><RiCloseLine color='red' onClick={() => changeValue(respuesta)} /></Button>
-                    </div>)
-                  ) : null;
-
-                  return respuesta.pregunta.id === pregunta.id ? (
-                    <div key={idx} className='mt-1 flex flex-row items-center justify-between' style={respuesta.correcta ? { borderBlockColor: "#04D400" } : { borderBlockColor: "red" }}>
-                      <div className='flex-grow ml-2 '>
-                        <fieldset className="flex max-w-md flex-col gap-4">
-                          <div className="flex items-center gap-2">
-                            <Radio disabled={true} style={respuesta.correcta ? { backgroundColor: "#04D400" } : { backgroundColor: "red" }} />
-                            <Label htmlFor="united-state">{respuesta.respuesta && respuesta.respuesta.nombre ? respuesta.respuesta.nombre : respuesta.description}</Label>
-                            {respuesta.correcta ? <FaCheck color='green' /> : <RiCloseLine color='red' />}
+          {preguntas.map((pregunta, index) => {
+            const respuestasPregunta = respuestas.filter(respuesta => respuesta.pregunta.id === pregunta.id);
+            if (respuestasPregunta.length > 0) {
+              return (
+                <div key={index} className='m-3 p-4'>
+                  <div className='bg-white rounded-lg p-3 m-3 p-4'>
+                    <h1 className='text-lg font-bold text-green-700'>{pregunta.name}</h1>
+                    {respuestasPregunta.map((respuesta, idx) => {
+                      const botones = user ? (
+                        respuesta.correcta ? (
+                          <div className='flex justify-end' key={idx}>
+                            <Button pill outline color='light' className="mr-2">
+                              <FaCheck color='green' onClick={() => changeValue(respuesta)} />
+                            </Button>
                           </div>
-                        </fieldset>
-                      </div>
-                      <div className='ml-2 grid justify-start'>
-                      </div>
-                      <div className='justify-end'>{botones}</div>
-                    </div>
-                  ) : null;
-                })}
-              </div>
-              <div>
-              </div>
-            </div>
-          ))}
+                        ) : (
+                          <div className='flex justify-end' key={idx}>
+                            <Button pill outline color='light' className="mr-2">
+                              <RiCloseLine color='red' onClick={() => changeValue(respuesta)} />
+                            </Button>
+                          </div>
+                        )
+                      ) : null;
+
+                      return (
+                        <div key={idx} className='mt-1 flex flex-row items-center justify-between' style={respuesta.correcta ? { borderBlockColor: "#04D400" } : { borderBlockColor: "red" }}>
+                          <div className='flex-grow ml-2 '>
+                            <fieldset className="flex max-w-md flex-col gap-4">
+                              <div className="flex items-center gap-2">
+                                <Radio disabled={true} style={respuesta.correcta ? { backgroundColor: "#04D400" } : { backgroundColor: "red" }} />
+                                <Label htmlFor="united-state">{respuesta.respuesta && respuesta.respuesta.nombre ? respuesta.respuesta.nombre : respuesta.description}</Label>
+                                {respuesta.correcta ? <FaCheck color='green' /> : <RiCloseLine color='red' />}
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div className='ml-2 grid justify-start'></div>
+                          <div className='justify-end'>{botones}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            }
+            return null; // Si no hay respuestas para esta pregunta, no renderizar nada
+          })}
           <Button pill outline color='light' onClick={() => back()}>Regresar</Button>
         </div>
       </div>
